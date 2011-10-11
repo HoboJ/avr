@@ -1,0 +1,352 @@
+   1               		.file	"cylon.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.global __do_copy_data
+   8               		.global __do_clear_bss
+   9               		.text
+  10               	.Ltext0:
+  11               		.section	.text.startup,"ax",@progbits
+  12               	.global	main
+  14               	main:
+  15               	.LFB5:
+  16               		.file 1 "cylon.c"
+   1:cylon.c       **** /* cyloneyes.c
+   2:cylon.c       ****  *
+   3:cylon.c       ****  * Trevor Hennessy
+   4:cylon.c       ****  * Description: Blinks back and forth
+   5:cylon.c       ****  */
+   6:cylon.c       **** 
+   7:cylon.c       **** #include <avr/io.h>
+   8:cylon.c       **** #define F_CPU 1000000UL
+   9:cylon.c       **** #include <util/delay.h>
+  10:cylon.c       **** #include <compat/deprecated.h>
+  11:cylon.c       **** 
+  12:cylon.c       **** int main (void)
+  13:cylon.c       **** {
+  17               		.loc 1 13 0
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  22               	.LVL0:
+  14:cylon.c       ****     //declare and initialize the scroll delay_count
+  15:cylon.c       ****     unsigned long delay_count = 10000;
+  16:cylon.c       **** 
+  17:cylon.c       ****     //declare speed increase variable
+  18:cylon.c       ****     unsigned long increase = 0;
+  19:cylon.c       **** 
+  20:cylon.c       ****     //declare polarity variable
+  21:cylon.c       ****     unsigned char polarity = 0;
+  22:cylon.c       ****     
+  23:cylon.c       ****     //init port pins
+  24:cylon.c       ****     DDRB = 0x00; //set port B pins for input
+  23               		.loc 1 24 0
+  24 0000 14B8      		out 36-0x20,__zero_reg__
+  25:cylon.c       ****     DDRD = 0xFF; //set port D pins for output
+  25               		.loc 1 25 0
+  26 0002 8FEF      		ldi r24,lo8(-1)
+  27 0004 8AB9      		out 42-0x20,r24
+  28               	.LBB8:
+  26:cylon.c       **** 
+  27:cylon.c       ****     while(1)
+  28:cylon.c       ****     {
+  29:cylon.c       ****         // read the switches
+  30:cylon.c       ****         increase = PINB;
+  31:cylon.c       ****         
+  32:cylon.c       ****         //set the polarity
+  33:cylon.c       ****         if(increase > 127) //aka pin 1 is set on
+  34:cylon.c       ****         {
+  35:cylon.c       ****             increase -= 127;
+  36:cylon.c       ****             polarity = 1;
+  37:cylon.c       ****         }
+  38:cylon.c       ****         else polarity = 0;
+  39:cylon.c       **** 
+  40:cylon.c       ****         delay_count = 5000 + (increase * 400); //delay_count cannot exceed 65535
+  41:cylon.c       **** 
+  42:cylon.c       ****         //scroll the LEDs
+  43:cylon.c       ****         for(int i = 1; i <=128; i = i*2)
+  44:cylon.c       ****         {
+  45:cylon.c       ****             if(polarity) PORTD = ~i;
+  46:cylon.c       ****             else PORTD = i;
+  47:cylon.c       ****             _delay_loop_2(delay_count);
+  48:cylon.c       ****         }
+  49:cylon.c       **** 
+  50:cylon.c       ****         for(int i = 128; i > 1; i -= i/2)
+  29               		.loc 1 50 0
+  30 0006 C2E0      		ldi r28,lo8(2)
+  31 0008 D0E0      		ldi r29,hi8(2)
+  32               	.LVL1:
+  33               	.L9:
+  34               	.LBE8:
+  30:cylon.c       ****         increase = PINB;
+  35               		.loc 1 30 0
+  36 000a 83B1      		in r24,35-0x20
+  37 000c 90E0      		ldi r25,lo8(0)
+  38 000e A0E0      		ldi r26,lo8(0)
+  39 0010 B0E0      		ldi r27,hi8(0)
+  40               	.LVL2:
+  33:cylon.c       ****         if(increase > 127) //aka pin 1 is set on
+  41               		.loc 1 33 0
+  42 0012 8038      		cpi r24,lo8(128)
+  43 0014 9105      		cpc r25,__zero_reg__
+  44 0016 A105      		cpc r26,__zero_reg__
+  45 0018 B105      		cpc r27,__zero_reg__
+  46 001a 00F0      		brlo .L10
+  35:cylon.c       ****             increase -= 127;
+  47               		.loc 1 35 0
+  48 001c 8F57      		subi r24,lo8(-(-127))
+  49 001e 9040      		sbci r25,hi8(-(-127))
+  50 0020 A040      		sbci r26,hlo8(-(-127))
+  51 0022 B040      		sbci r27,hhi8(-(-127))
+  52               	.LVL3:
+  36:cylon.c       ****             polarity = 1;
+  53               		.loc 1 36 0
+  54 0024 11E0      		ldi r17,lo8(1)
+  55 0026 00C0      		rjmp .L2
+  56               	.LVL4:
+  57               	.L10:
+  38:cylon.c       ****         else polarity = 0;
+  58               		.loc 1 38 0
+  59 0028 10E0      		ldi r17,lo8(0)
+  60               	.L2:
+  61               	.LVL5:
+  40:cylon.c       ****         delay_count = 5000 + (increase * 400); //delay_count cannot exceed 65535
+  62               		.loc 1 40 0
+  63 002a BC01      		movw r22,r24
+  64 002c CD01      		movw r24,r26
+  65 002e 20E9      		ldi r18,lo8(400)
+  66 0030 31E0      		ldi r19,hi8(400)
+  67 0032 40E0      		ldi r20,hlo8(400)
+  68 0034 50E0      		ldi r21,hhi8(400)
+  69 0036 0E94 0000 		call __mulsi3
+  70 003a DC01      		movw r26,r24
+  71 003c CB01      		movw r24,r22
+  72               	.LVL6:
+  73 003e 8857      		subi r24,lo8(-(5000))
+  74 0040 9C4E      		sbci r25,hi8(-(5000))
+  75 0042 AF4F      		sbci r26,hlo8(-(5000))
+  76 0044 BF4F      		sbci r27,hhi8(-(5000))
+  77               	.LVL7:
+  78 0046 28E0      		ldi r18,lo8(8)
+  79 0048 30E0      		ldi r19,hi8(8)
+  43:cylon.c       ****         for(int i = 1; i <=128; i = i*2)
+  80               		.loc 1 43 0
+  81 004a 41E0      		ldi r20,lo8(1)
+  82 004c 50E0      		ldi r21,hi8(1)
+  83               	.LBB11:
+  47:cylon.c       ****             _delay_loop_2(delay_count);
+  84               		.loc 1 47 0
+  85 004e FC01      		movw r30,r24
+  86               	.LVL8:
+  87               	.L5:
+  45:cylon.c       ****             if(polarity) PORTD = ~i;
+  88               		.loc 1 45 0
+  89 0050 1123      		tst r17
+  90 0052 01F0      		breq .L3
+  45:cylon.c       ****             if(polarity) PORTD = ~i;
+  91               		.loc 1 45 0 is_stmt 0 discriminator 1
+  92 0054 842F      		mov r24,r20
+  93 0056 8095      		com r24
+  94 0058 8BB9      		out 43-0x20,r24
+  95 005a 00C0      		rjmp .L4
+  96               	.L3:
+  46:cylon.c       ****             else PORTD = i;
+  97               		.loc 1 46 0 is_stmt 1
+  98 005c 4BB9      		out 43-0x20,r20
+  99               	.L4:
+ 100               	.LVL9:
+ 101               	.LBB12:
+ 102               	.LBB13:
+ 103               		.file 2 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h"
+   1:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
+   3:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    All rights reserved.
+   4:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+   5:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    Redistribution and use in source and binary forms, with or without
+   6:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    modification, are permitted provided that the following conditions are met:
+   7:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+   8:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    * Redistributions of source code must retain the above copyright
+   9:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer.
+  10:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  11:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer in
+  13:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****      the documentation and/or other materials provided with the
+  14:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****      distribution.
+  15:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  16:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    * Neither the name of the copyright holders nor the names of
+  17:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****      contributors may be used to endorse or promote products derived
+  18:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****      from this software without specific prior written permission.
+  19:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  20:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  32:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /* $Id: delay_basic.h 2143 2010-06-08 21:19:51Z joerg_wunsch $ */
+  33:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  34:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** #ifndef _UTIL_DELAY_BASIC_H_
+  35:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** #define _UTIL_DELAY_BASIC_H_ 1
+  36:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  37:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** #include <inttypes.h>
+  38:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  39:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** #if !defined(__DOXYGEN__)
+  40:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  41:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  42:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** #endif
+  43:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  44:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /** \file */
+  45:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /** \defgroup util_delay_basic <util/delay_basic.h>: Basic busy-wait delay loops
+  46:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     \code
+  47:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     #include <util/delay_basic.h>
+  48:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     \endcode
+  49:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  50:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     The functions in this header file implement simple delay loops
+  51:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     that perform a busy-waiting.  They are typically used to
+  52:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     facilitate short delays in the program execution.  They are
+  53:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     implemented as count-down loops with a well-known CPU cycle
+  54:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     count per loop iteration.  As such, no other processing can
+  55:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     occur simultaneously.  It should be kept in mind that the
+  56:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     functions described here do not disable interrupts.
+  57:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  58:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     In general, for long delays, the use of hardware timers is
+  59:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     much preferrable, as they free the CPU, and allow for
+  60:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     concurrent processing of other events while the timer is
+  61:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     running.  However, in particular for very short delays, the
+  62:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     overhead of setting up a hardware timer is too much compared
+  63:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     to the overall delay time.
+  64:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  65:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     Two inline functions are provided for the actual delay algorithms.
+  66:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  67:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** */
+  68:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  69:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  70:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  71:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  72:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 256 would have to be passed
+  73:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  74:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     including the overhead the compiler needs to setup the counter
+  75:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     register.
+  76:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  77:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  78:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     can be achieved.
+  79:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** */
+  80:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** void
+  81:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** _delay_loop_1(uint8_t __count)
+  82:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** {
+  83:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+  84:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+  85:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 		"brne 1b"
+  86:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 		: "=r" (__count)
+  87:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 		: "0" (__count)
+  88:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 	);
+  89:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** }
+  90:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  91:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  92:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  93:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+  94:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 65536 would have to be
+  95:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+  96:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     not including the overhead the compiler requires to setup the
+  97:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     counter register pair.
+  98:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 
+  99:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 100:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****     milliseconds can be achieved.
+ 101:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****  */
+ 102:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** void
+ 103:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
+ 104:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** {
+ 105:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 104               		.loc 2 105 0
+ 105 005e CF01      		movw r24,r30
+ 106               	/* #APP */
+ 107               	 ;  105 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h" 1
+ 108 0060 0197      		1: sbiw r24,1
+ 109 0062 01F4      		brne 1b
+ 110               	 ;  0 "" 2
+ 111               	.LVL10:
+ 112               	/* #NOAPP */
+ 113               	.LBE13:
+ 114               	.LBE12:
+  43:cylon.c       ****         for(int i = 1; i <=128; i = i*2)
+ 115               		.loc 1 43 0
+ 116 0064 440F      		lsl r20
+ 117 0066 551F      		rol r21
+ 118               	.LVL11:
+ 119 0068 2150      		subi r18,lo8(-(-1))
+ 120 006a 3040      		sbci r19,hi8(-(-1))
+ 121 006c 01F4      		brne .L5
+ 122 006e 20E8      		ldi r18,lo8(128)
+ 123 0070 30E0      		ldi r19,hi8(128)
+ 124               	.L8:
+ 125               	.LBE11:
+ 126               	.LBB14:
+  51:cylon.c       ****         {
+  52:cylon.c       ****             if(polarity) PORTD = ~i;
+ 127               		.loc 1 52 0
+ 128 0072 1123      		tst r17
+ 129 0074 01F0      		breq .L6
+ 130               		.loc 1 52 0 is_stmt 0 discriminator 1
+ 131 0076 822F      		mov r24,r18
+ 132 0078 8095      		com r24
+ 133 007a 8BB9      		out 43-0x20,r24
+ 134 007c 00C0      		rjmp .L7
+ 135               	.L6:
+  53:cylon.c       ****             else PORTD = i;
+ 136               		.loc 1 53 0 is_stmt 1
+ 137 007e 2BB9      		out 43-0x20,r18
+ 138               	.L7:
+ 139               	.LVL12:
+ 140               	.LBB9:
+ 141               	.LBB10:
+ 142               		.loc 2 105 0
+ 143 0080 CF01      		movw r24,r30
+ 144               	/* #APP */
+ 145               	 ;  105 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h" 1
+ 146 0082 0197      		1: sbiw r24,1
+ 147 0084 01F4      		brne 1b
+ 148               	 ;  0 "" 2
+ 149               	.LVL13:
+ 150               	/* #NOAPP */
+ 151               	.LBE10:
+ 152               	.LBE9:
+  50:cylon.c       ****         for(int i = 128; i > 1; i -= i/2)
+ 153               		.loc 1 50 0
+ 154 0086 C901      		movw r24,r18
+ 155 0088 BE01      		movw r22,r28
+ 156 008a 0E94 0000 		call __divmodhi4
+ 157 008e 261B      		sub r18,r22
+ 158 0090 370B      		sbc r19,r23
+ 159               	.LVL14:
+ 160 0092 2230      		cpi r18,2
+ 161 0094 3105      		cpc r19,__zero_reg__
+ 162 0096 04F4      		brge .+2
+ 163 0098 00C0      		rjmp .L9
+ 164 009a 00C0      		rjmp .L8
+ 165               	.LBE14:
+ 166               	.LFE5:
+ 194               	.Letext0:
+ 195               		.file 3 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 cylon.c
+     /tmp/ccK7Zpnc.s:2      *ABS*:000000000000003f __SREG__
+     /tmp/ccK7Zpnc.s:3      *ABS*:000000000000003e __SP_H__
+     /tmp/ccK7Zpnc.s:4      *ABS*:000000000000003d __SP_L__
+     /tmp/ccK7Zpnc.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccK7Zpnc.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccK7Zpnc.s:14     .text.startup:0000000000000000 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+__mulsi3
+__divmodhi4

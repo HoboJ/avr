@@ -1,0 +1,35 @@
+gavrasm Gerd's AVR assembler version 3.0 (C)2011 by DG4FAC
+----------------------------------------------------------
+Source file: add.asm
+Hex file:    add.hex
+Eeprom file: add.eep
+Compiled:    26.09.2011, 05:17:31
+Pass:        2
+     1: ; Add 0x0F to 0x01
+     2: ; Output to PORTD
+     3: 
+     4: .include "m169def.inc"
+ -> Warning 009: Include defs not necessary, using internal values!
+   File: add.asm, Line: 4
+   Source line: .include "m169def.inc"
+     5: .def temp = r16
+     6: .def temp1 = r17
+     7: .def inout = r18
+     8: 
+     9: ; Output to PortD
+    10: 
+    11: 000000   EF2F  ldi inout, 0b11111111 ; Enable PORTD ddr for output
+    12: 000001   B92A  out DDRD, inout
+    13:     
+    14: 000002   E00F  ldi temp, 0x0F
+    15: 000003   E011  ldi temp1, 0x01
+    16: 000004   0F10  add temp1, temp
+    17: 000005   B91B  out PORTD, temp1
+
+Program             :        6 words.
+Constants           :        0 words.
+Total program memory:        6 words.
+Eeprom space        :        0 bytes.
+Data segment        :        0 bytes.
+Compilation completed, no errors.
+Compilation endet 26.09.2011, 05:17:31

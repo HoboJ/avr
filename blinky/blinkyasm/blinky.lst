@@ -1,0 +1,87 @@
+gavrasm Gerd's AVR assembler version 3.0 (C)2011 by DG4FAC
+----------------------------------------------------------
+Source file: blinky.asm
+Hex file:    blinky.hex
+Eeprom file: blinky.eep
+Compiled:    28.09.2011, 08:28:55
+Pass:        2
+     1: ; Blinky C Program in Assembler
+     2: .include "m169def.inc"
+ -> Warning 009: Include defs not necessary, using internal values!
+   File: blinky.asm, Line: 2
+   Source line: .include "m169def.inc"
+     3: .def temp = r16
+     4: .def outerc = r17
+     5: .def innerc = r18
+     6: .def stackvar = r20
+     7: 
+     8: RESET:
+     9:     ; Set DDRD for output
+    10:     ; 0 = input, 1 = output
+    11: 000000   EF4F  ldi stackvar, low (ramend)
+    12: 000001   BF4D  out spl, stackvar
+    13: 000002   E044  ldi stackvar, high (ramend)
+    14: 000003   BF4E  out sph, stackvar
+    15: 000004   EF0F  ldi temp, 0xFF
+    16: 000005   B90A  out DDRD, temp
+    17: 
+    18: SETL:
+    19: 000006   E001  ldi temp, 0x01 ; set temp to 1 so it can count up in LOOPL
+    20: 000007   9488  clc
+    21: 
+    22: LOOPL:
+    23:     ; loop to the left on leds
+    24: 000008   B90B  out PORTD, temp
+    25: 000009   1F00  rol temp
+    26: 00000A   F038  brcs SETR ; branch if carry set and jump to SETR
+    27: 00000B   D009  rcall DELAY
+    28: 00000C   CFFB  rjmp LOOPL
+    29:     
+    30: LOOPR:
+    31:     ; loop to the right on leds
+    32: 00000D   B90B  out PORTD, temp
+    33: 00000E   9507  ror temp
+    34: 00000F   F3B0  brcs SETL ; branch if carry set and jump to SETL
+    35: 000010   D004  rcall DELAY
+    36: 000011   CFFB  rjmp LOOPR
+    37: 
+    38: SETR:
+    39: 000012   E800  ldi temp, 0x80 ; set temp to 128 so it can count down in LOOPR
+    40: 000013   9488  clc
+    41: 000014   CFF8  rjmp LOOPR
+    42: 
+    43:     ; Subroutine - function
+    44: DELAY: ; delay approx 1 second
+    45: 000015   EF1F  ldi outerc, 0xFF
+    46: OUTER:
+    47: 000016   EF2F  ldi innerc, 0xFF
+    48: INNER:
+    49: 000017   0000  nop
+    50: 000018   0000  nop
+    51: 000019   0000  nop
+    52: 00001A   0000  nop
+    53: 00001B   0000  nop
+    54: 00001C   0000  nop
+    55: 00001D   0000  nop
+    56: 00001E   0000  nop
+    57: 00001F   0000  nop
+    58: 000020   0000  nop
+    59: 000021   0000  nop
+    60: 000022   0000  nop
+    61: 000023   0000  nop
+    62: 000024   0000  nop
+    63: 000025   0000  nop
+    64: 000026   952A  dec innerc
+    65: 000027   F779  brne INNER
+    66: 000028   951A  dec outerc
+    67: 000029   F761  brne OUTER
+    68: 00002A   9508  ret
+ -> Warning 001: 1 symbol(s) defined, but not used!
+
+Program             :       43 words.
+Constants           :        0 words.
+Total program memory:       43 words.
+Eeprom space        :        0 bytes.
+Data segment        :        0 bytes.
+Compilation completed, no errors.
+Compilation endet 28.09.2011, 08:28:55

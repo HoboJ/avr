@@ -1,0 +1,1 @@
+bitop.o: bitop.c

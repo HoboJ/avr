@@ -1,0 +1,117 @@
+
+portio.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000aa  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .stab         00000834  00000000  00000000  00000100  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  2 .stabstr      0000009c  00000000  00000000  00000934  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_aranges 00000020  00000000  00000000  000009d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   00000086  00000000  00000000  000009f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000050  00000000  00000000  00000a76  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   00000078  00000000  00000000  00000ac6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000024  00000000  00000000  00000b40  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    00000069  00000000  00000000  00000b64  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000010  00000000  00000000  00000bcd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2e 00 	jmp	0x5c	; 0x5c <__ctors_end>
+   4:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+   8:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+   c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  10:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  14:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  18:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  1c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  20:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  24:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  28:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  2c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  30:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  34:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  38:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  3c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  40:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  44:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  48:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  4c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  50:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  54:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  58:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+
+0000005c <__ctors_end>:
+  5c:	11 24       	eor	r1, r1
+  5e:	1f be       	out	0x3f, r1	; 63
+  60:	cf ef       	ldi	r28, 0xFF	; 255
+  62:	d4 e0       	ldi	r29, 0x04	; 4
+  64:	de bf       	out	0x3e, r29	; 62
+  66:	cd bf       	out	0x3d, r28	; 61
+
+00000068 <__do_copy_data>:
+  68:	11 e0       	ldi	r17, 0x01	; 1
+  6a:	a0 e0       	ldi	r26, 0x00	; 0
+  6c:	b1 e0       	ldi	r27, 0x01	; 1
+  6e:	ea ea       	ldi	r30, 0xAA	; 170
+  70:	f0 e0       	ldi	r31, 0x00	; 0
+  72:	02 c0       	rjmp	.+4      	; 0x78 <__do_copy_data+0x10>
+  74:	05 90       	lpm	r0, Z+
+  76:	0d 92       	st	X+, r0
+  78:	a0 30       	cpi	r26, 0x00	; 0
+  7a:	b1 07       	cpc	r27, r17
+  7c:	d9 f7       	brne	.-10     	; 0x74 <__do_copy_data+0xc>
+
+0000007e <__do_clear_bss>:
+  7e:	11 e0       	ldi	r17, 0x01	; 1
+  80:	a0 e0       	ldi	r26, 0x00	; 0
+  82:	b1 e0       	ldi	r27, 0x01	; 1
+  84:	01 c0       	rjmp	.+2      	; 0x88 <.do_clear_bss_start>
+
+00000086 <.do_clear_bss_loop>:
+  86:	1d 92       	st	X+, r1
+
+00000088 <.do_clear_bss_start>:
+  88:	a0 30       	cpi	r26, 0x00	; 0
+  8a:	b1 07       	cpc	r27, r17
+  8c:	e1 f7       	brne	.-8      	; 0x86 <.do_clear_bss_loop>
+  8e:	0e 94 4d 00 	call	0x9a	; 0x9a <main>
+  92:	0c 94 53 00 	jmp	0xa6	; 0xa6 <_exit>
+
+00000096 <__bad_interrupt>:
+  96:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000009a <main>:
+#include <avr/io.h>
+
+int main (void)
+{
+    //int port pins
+    DDRB = 0x00;
+  9a:	14 b8       	out	0x04, r1	; 4
+    DDRD = 0xFF;
+  9c:	8f ef       	ldi	r24, 0xFF	; 255
+  9e:	8a b9       	out	0x0a, r24	; 10
+
+    while(1)
+    {
+        PORTD = PINB;
+  a0:	83 b1       	in	r24, 0x03	; 3
+  a2:	8b b9       	out	0x0b, r24	; 11
+  a4:	fd cf       	rjmp	.-6      	; 0xa0 <main+0x6>
+
+000000a6 <_exit>:
+  a6:	f8 94       	cli
+
+000000a8 <__stop_program>:
+  a8:	ff cf       	rjmp	.-2      	; 0xa8 <__stop_program>
