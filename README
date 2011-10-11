@@ -1,0 +1,9 @@
+This repo is a collection of my avr projects as I learn how to program microcontrollers. 
+
+Required tools for avr programming:
+
+    avrdude - For transfering the resulting .hex files to an avr micro
+    avr-libc
+    binutils-avr
+    gcc-avr
+    gavrasm - For assembling .asm files for an avr micro
