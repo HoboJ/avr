@@ -1,4 +1,4 @@
-/* cyloneyes.c
+/* cylon.c
  *
  * Trevor Hennessy
  * Description: Blinks back and forth
@@ -10,13 +10,10 @@
 
 int main (void)
 {
-    //declare and initialize the scroll delay_count
     unsigned long delay_count = 10000;
 
-    //declare speed increase variable
     unsigned long increase = 0;
 
-    //declare polarity variable
     unsigned char polarity = 0;
     
     //init port pins
@@ -36,7 +33,7 @@ int main (void)
         }
         else polarity = 0;
 
-        delay_count = 50 + (increase * 10); //delay_count cannot exceed 65535
+        delay_count = 50 + (increase * 10); //delay_count is in ms
 
         //scroll the LEDs
         for(int i = 1; i <=128; i = i*2)
