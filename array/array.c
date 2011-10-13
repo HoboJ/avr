@@ -16,6 +16,7 @@ int decode (void);
 int main (void)
 {
     int digits[10];
+    int count = 0;
 
     digits[0] = 0xC0;
     digits[1] = 0xF9;
@@ -31,7 +32,7 @@ int main (void)
     DDRD = 0xFF; //set PORTD for output
     DDRB = 0x00; //set PORTB for input
 
-    while(1) {
+    while(count <= 4) {
 
         int value = decode(); //figure out which number to display on the leds
         
@@ -43,6 +44,8 @@ int main (void)
             PORTD = 0xFF;
             _delay_ms(4000);
         }
+        count++;
+        
     }
 
     return 0;
@@ -50,24 +53,40 @@ int main (void)
 
 int decode(void)
 {
-        
-        if(PORTB == 0x01)
-           return 0;
-        else if(PORTB == 0x02)
-            return 1;
-        else if(PORTB == 0x04)
-            return 2;
-        else if(PORTB == 0x08)
-            return 3;
-        else if(PORTB == 0x10)
-            return 4;
-        else if(PORTB == 0x20)
-            return 5;
-        else if(PORTB == 0x40)
-            return 6;
-        else if(PORTB == 0x80)
-            return 7;
-        else
-            return 10;
-}
 
+    int input, value;
+
+    PORTB = input;
+    
+    switch (input) {
+        case 0x01:
+            value = 0;
+            break;
+        case 0x02:
+            value = 1;
+            break;
+        case 0x04:
+            value = 2;
+            break;
+        case 0x08:
+            value = 3;
+            break;
+        case 0x10:
+            value = 4;
+            break;
+        case 0x20:
+            value = 5;
+            break;
+        case 0x40:
+            value = 6;
+            break;
+        case 0x80:
+            value = 7;
+            break;
+        default:
+            value = 10;
+    }
+
+    return value;
+
+}       

@@ -30,246 +30,209 @@
   16:array.c       **** int main (void)
   17:array.c       **** {
   18:array.c       ****     int digits[10];
-  19:array.c       **** 
-  20:array.c       ****     digits[0] = 0xC0;
-  21:array.c       ****     digits[1] = 0xF9;
-  22:array.c       ****     digits[2] = 0xA4;
-  23:array.c       ****     digits[3] = 0xB0;
-  24:array.c       ****     digits[4] = 0x99;
-  25:array.c       ****     digits[5] = 0x92;
-  26:array.c       ****     digits[6] = 0x82;
-  27:array.c       ****     digits[7] = 0xF8;
-  28:array.c       ****     digits[8] = 0x80;
-  29:array.c       ****     digits[9] = 0x98;
-  30:array.c       ****     
-  31:array.c       ****     DDRD = 0xFF; //set PORTD for output
-  32:array.c       ****     DDRB = 0x00; //set PORTB for input
-  33:array.c       **** 
-  34:array.c       ****     while(1) {
-  35:array.c       **** 
-  36:array.c       ****         int value = decode(); //figure out which number to display on the leds
-  37:array.c       ****         
-  38:array.c       ****         if(value != 10) {
-  39:array.c       ****             PORTD = digits[value];
-  40:array.c       ****             _delay_ms(1000);
-  41:array.c       ****         }
-  42:array.c       ****         else {
-  43:array.c       ****             PORTD = 0xFF;
-  44:array.c       ****             _delay_ms(4000);
-  45:array.c       ****         }
-  46:array.c       ****     }
-  47:array.c       **** 
-  48:array.c       ****     return 0;
-  49:array.c       **** }
+  19:array.c       ****     int count = 0;
+  20:array.c       **** 
+  21:array.c       ****     digits[0] = 0xC0;
+  22:array.c       ****     digits[1] = 0xF9;
+  23:array.c       ****     digits[2] = 0xA4;
+  24:array.c       ****     digits[3] = 0xB0;
+  25:array.c       ****     digits[4] = 0x99;
+  26:array.c       ****     digits[5] = 0x92;
+  27:array.c       ****     digits[6] = 0x82;
+  28:array.c       ****     digits[7] = 0xF8;
+  29:array.c       ****     digits[8] = 0x80;
+  30:array.c       ****     digits[9] = 0x98;
+  31:array.c       ****     
+  32:array.c       ****     DDRD = 0xFF; //set PORTD for output
+  33:array.c       ****     DDRB = 0x00; //set PORTB for input
+  34:array.c       **** 
+  35:array.c       ****     while(count <= 4) {
+  36:array.c       **** 
+  37:array.c       ****         int value = decode(); //figure out which number to display on the leds
+  38:array.c       ****         
+  39:array.c       ****         if(value != 10) {
+  40:array.c       ****             PORTD = digits[value];
+  41:array.c       ****             _delay_ms(1000);
+  42:array.c       ****         }
+  43:array.c       ****         else {
+  44:array.c       ****             PORTD = 0xFF;
+  45:array.c       ****             _delay_ms(4000);
+  46:array.c       ****         }
+  47:array.c       ****         count++;
+  48:array.c       ****         
+  49:array.c       ****     }
   50:array.c       **** 
-  51:array.c       **** int decode(void)
-  52:array.c       **** {
-  16               		.loc 1 52 0
+  51:array.c       ****     return 0;
+  52:array.c       **** }
+  53:array.c       **** 
+  54:array.c       **** int decode(void)
+  55:array.c       **** {
+  16               		.loc 1 55 0
   17               	/* prologue: function */
   18               	/* frame size = 0 */
   19               	/* stack size = 0 */
   20               	.L__stack_usage = 0
-  53:array.c       ****         
-  54:array.c       ****         if(PORTB == 0x01)
-  21               		.loc 1 54 0
-  22 0000 85B1      		in r24,37-0x20
-  23 0002 8130      		cpi r24,lo8(1)
-  24 0004 01F0      		breq .L3
-  55:array.c       ****            return 0;
-  56:array.c       ****         else if(PORTB == 0x02)
-  25               		.loc 1 56 0
-  26 0006 85B1      		in r24,37-0x20
-  27 0008 8230      		cpi r24,lo8(2)
-  28 000a 01F0      		breq .L4
-  57:array.c       ****             return 1;
-  58:array.c       ****         else if(PORTB == 0x04)
-  29               		.loc 1 58 0
-  30 000c 85B1      		in r24,37-0x20
-  31 000e 8430      		cpi r24,lo8(4)
-  32 0010 01F0      		breq .L5
-  59:array.c       ****             return 2;
-  60:array.c       ****         else if(PORTB == 0x08)
-  33               		.loc 1 60 0
-  34 0012 85B1      		in r24,37-0x20
-  35 0014 8830      		cpi r24,lo8(8)
-  36 0016 01F0      		breq .L6
-  61:array.c       ****             return 3;
-  62:array.c       ****         else if(PORTB == 0x10)
-  37               		.loc 1 62 0
-  38 0018 85B1      		in r24,37-0x20
-  39 001a 8031      		cpi r24,lo8(16)
-  40 001c 01F0      		breq .L7
-  63:array.c       ****             return 4;
-  64:array.c       ****         else if(PORTB == 0x20)
-  41               		.loc 1 64 0
-  42 001e 85B1      		in r24,37-0x20
-  43 0020 8032      		cpi r24,lo8(32)
-  44 0022 01F0      		breq .L8
-  65:array.c       ****             return 5;
-  66:array.c       ****         else if(PORTB == 0x40)
-  45               		.loc 1 66 0
-  46 0024 85B1      		in r24,37-0x20
-  47 0026 8034      		cpi r24,lo8(64)
-  48 0028 01F0      		breq .L9
-  67:array.c       ****             return 6;
-  68:array.c       ****         else if(PORTB == 0x80)
-  49               		.loc 1 68 0
-  50 002a 85B1      		in r24,37-0x20
-  51 002c 8038      		cpi r24,lo8(-128)
-  52 002e 01F4      		brne .L10
-  69:array.c       ****             return 7;
-  53               		.loc 1 69 0
-  54 0030 87E0      		ldi r24,lo8(7)
-  55 0032 90E0      		ldi r25,hi8(7)
-  56 0034 0895      		ret
-  57               	.L3:
-  55:array.c       ****            return 0;
-  58               		.loc 1 55 0
-  59 0036 80E0      		ldi r24,lo8(0)
-  60 0038 90E0      		ldi r25,hi8(0)
-  61 003a 0895      		ret
-  62               	.L4:
-  57:array.c       ****             return 1;
-  63               		.loc 1 57 0
-  64 003c 81E0      		ldi r24,lo8(1)
-  65 003e 90E0      		ldi r25,hi8(1)
-  66 0040 0895      		ret
-  67               	.L5:
-  59:array.c       ****             return 2;
-  68               		.loc 1 59 0
-  69 0042 82E0      		ldi r24,lo8(2)
-  70 0044 90E0      		ldi r25,hi8(2)
-  71 0046 0895      		ret
-  72               	.L6:
-  61:array.c       ****             return 3;
-  73               		.loc 1 61 0
-  74 0048 83E0      		ldi r24,lo8(3)
-  75 004a 90E0      		ldi r25,hi8(3)
-  76 004c 0895      		ret
-  77               	.L7:
-  63:array.c       ****             return 4;
-  78               		.loc 1 63 0
-  79 004e 84E0      		ldi r24,lo8(4)
-  80 0050 90E0      		ldi r25,hi8(4)
-  81 0052 0895      		ret
-  82               	.L8:
-  65:array.c       ****             return 5;
-  83               		.loc 1 65 0
-  84 0054 85E0      		ldi r24,lo8(5)
-  85 0056 90E0      		ldi r25,hi8(5)
-  86 0058 0895      		ret
-  87               	.L9:
-  67:array.c       ****             return 6;
-  88               		.loc 1 67 0
-  89 005a 86E0      		ldi r24,lo8(6)
-  90 005c 90E0      		ldi r25,hi8(6)
-  91 005e 0895      		ret
-  92               	.L10:
-  70:array.c       ****         else
-  71:array.c       ****             return 10;
-  93               		.loc 1 71 0
-  94 0060 8AE0      		ldi r24,lo8(10)
-  95 0062 90E0      		ldi r25,hi8(10)
-  72:array.c       **** }
-  96               		.loc 1 72 0
-  97 0064 0895      		ret
-  98               	.LFE5:
- 100               		.section	.text.startup,"ax",@progbits
- 101               	.global	main
- 103               	main:
- 104               	.LFB4:
+  56:array.c       **** 
+  57:array.c       ****     int input, value;
+  58:array.c       **** 
+  59:array.c       ****     PORTB = input;
+  21               		.loc 1 59 0
+  22 0000 15B8      		out 37-0x20,__zero_reg__
+  23               	.LVL0:
+  60:array.c       ****     
+  61:array.c       ****     switch (input) {
+  62:array.c       ****         case 0x01:
+  63:array.c       ****             value = 0;
+  64:array.c       ****             break;
+  65:array.c       ****         case 0x02:
+  66:array.c       ****             value = 1;
+  67:array.c       ****             break;
+  68:array.c       ****         case 0x04:
+  69:array.c       ****             value = 2;
+  70:array.c       ****             break;
+  71:array.c       ****         case 0x08:
+  72:array.c       ****             value = 3;
+  73:array.c       ****             break;
+  74:array.c       ****         case 0x10:
+  75:array.c       ****             value = 4;
+  76:array.c       ****             break;
+  77:array.c       ****         case 0x20:
+  78:array.c       ****             value = 5;
+  79:array.c       ****             break;
+  80:array.c       ****         case 0x40:
+  81:array.c       ****             value = 6;
+  82:array.c       ****             break;
+  83:array.c       ****         case 0x80:
+  84:array.c       ****             value = 7;
+  85:array.c       ****             break;
+  86:array.c       ****         default:
+  87:array.c       ****             value = 10;
+  24               		.loc 1 87 0
+  25 0002 8AE0      		ldi r24,lo8(10)
+  26 0004 90E0      		ldi r25,hi8(10)
+  27               	.LVL1:
+  28               	/* epilogue start */
+  88:array.c       ****     }
+  89:array.c       **** 
+  90:array.c       ****     return value;
+  91:array.c       **** 
+  92:array.c       **** }       
+  29               		.loc 1 92 0
+  30 0006 0895      		ret
+  31               	.LFE5:
+  33               		.section	.text.startup,"ax",@progbits
+  34               	.global	main
+  36               	main:
+  37               	.LFB4:
   17:array.c       **** {
- 105               		.loc 1 17 0
- 106 0000 CF93      		push r28
- 107               	.LCFI0:
- 108 0002 DF93      		push r29
- 109               	.LCFI1:
- 110 0004 CDB7      		in r28,__SP_L__
- 111 0006 DEB7      		in r29,__SP_H__
- 112 0008 6497      		sbiw r28,20
- 113               	.LCFI2:
- 114 000a 0FB6      		in __tmp_reg__,__SREG__
- 115 000c F894      		cli
- 116 000e DEBF      		out __SP_H__,r29
- 117 0010 0FBE      		out __SREG__,__tmp_reg__
- 118 0012 CDBF      		out __SP_L__,r28
- 119               	/* prologue: function */
- 120               	/* frame size = 20 */
- 121               	/* stack size = 22 */
- 122               	.L__stack_usage = 22
-  20:array.c       ****     digits[0] = 0xC0;
- 123               		.loc 1 20 0
- 124 0014 80EC      		ldi r24,lo8(192)
- 125 0016 90E0      		ldi r25,hi8(192)
- 126 0018 9A83      		std Y+2,r25
- 127 001a 8983      		std Y+1,r24
-  21:array.c       ****     digits[1] = 0xF9;
- 128               		.loc 1 21 0
- 129 001c 89EF      		ldi r24,lo8(249)
- 130 001e 90E0      		ldi r25,hi8(249)
- 131 0020 9C83      		std Y+4,r25
- 132 0022 8B83      		std Y+3,r24
-  22:array.c       ****     digits[2] = 0xA4;
- 133               		.loc 1 22 0
- 134 0024 84EA      		ldi r24,lo8(164)
- 135 0026 90E0      		ldi r25,hi8(164)
- 136 0028 9E83      		std Y+6,r25
- 137 002a 8D83      		std Y+5,r24
-  23:array.c       ****     digits[3] = 0xB0;
- 138               		.loc 1 23 0
- 139 002c 80EB      		ldi r24,lo8(176)
- 140 002e 90E0      		ldi r25,hi8(176)
- 141 0030 9887      		std Y+8,r25
- 142 0032 8F83      		std Y+7,r24
-  24:array.c       ****     digits[4] = 0x99;
- 143               		.loc 1 24 0
- 144 0034 89E9      		ldi r24,lo8(153)
- 145 0036 90E0      		ldi r25,hi8(153)
- 146 0038 9A87      		std Y+10,r25
- 147 003a 8987      		std Y+9,r24
-  25:array.c       ****     digits[5] = 0x92;
- 148               		.loc 1 25 0
- 149 003c 82E9      		ldi r24,lo8(146)
- 150 003e 90E0      		ldi r25,hi8(146)
- 151 0040 9C87      		std Y+12,r25
- 152 0042 8B87      		std Y+11,r24
-  26:array.c       ****     digits[6] = 0x82;
- 153               		.loc 1 26 0
- 154 0044 82E8      		ldi r24,lo8(130)
- 155 0046 90E0      		ldi r25,hi8(130)
- 156 0048 9E87      		std Y+14,r25
- 157 004a 8D87      		std Y+13,r24
-  27:array.c       ****     digits[7] = 0xF8;
- 158               		.loc 1 27 0
- 159 004c 88EF      		ldi r24,lo8(248)
- 160 004e 90E0      		ldi r25,hi8(248)
- 161 0050 988B      		std Y+16,r25
- 162 0052 8F87      		std Y+15,r24
-  28:array.c       ****     digits[8] = 0x80;
- 163               		.loc 1 28 0
- 164 0054 80E8      		ldi r24,lo8(128)
- 165 0056 90E0      		ldi r25,hi8(128)
- 166 0058 9A8B      		std Y+18,r25
- 167 005a 898B      		std Y+17,r24
-  29:array.c       ****     digits[9] = 0x98;
- 168               		.loc 1 29 0
- 169 005c 88E9      		ldi r24,lo8(152)
- 170 005e 90E0      		ldi r25,hi8(152)
- 171 0060 9C8B      		std Y+20,r25
- 172 0062 8B8B      		std Y+19,r24
-  31:array.c       ****     DDRD = 0xFF; //set PORTD for output
- 173               		.loc 1 31 0
- 174 0064 8FEF      		ldi r24,lo8(-1)
- 175 0066 8AB9      		out 42-0x20,r24
-  32:array.c       ****     DDRB = 0x00; //set PORTB for input
- 176               		.loc 1 32 0
- 177 0068 14B8      		out 36-0x20,__zero_reg__
- 178               	.LBB19:
- 179               	.LBB20:
- 180               	.LBB21:
- 181               	.LBB22:
- 182               	.LBB23:
- 183               		.file 2 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h"
+  38               		.loc 1 17 0
+  39 0000 DF92      		push r13
+  40               	.LCFI0:
+  41 0002 EF92      		push r14
+  42               	.LCFI1:
+  43 0004 FF92      		push r15
+  44               	.LCFI2:
+  45 0006 0F93      		push r16
+  46               	.LCFI3:
+  47 0008 1F93      		push r17
+  48               	.LCFI4:
+  49 000a CF93      		push r28
+  50               	.LCFI5:
+  51 000c DF93      		push r29
+  52               	.LCFI6:
+  53 000e CDB7      		in r28,__SP_L__
+  54 0010 DEB7      		in r29,__SP_H__
+  55 0012 6497      		sbiw r28,20
+  56               	.LCFI7:
+  57 0014 0FB6      		in __tmp_reg__,__SREG__
+  58 0016 F894      		cli
+  59 0018 DEBF      		out __SP_H__,r29
+  60 001a 0FBE      		out __SREG__,__tmp_reg__
+  61 001c CDBF      		out __SP_L__,r28
+  62               	/* prologue: function */
+  63               	/* frame size = 20 */
+  64               	/* stack size = 27 */
+  65               	.L__stack_usage = 27
+  66               	.LVL2:
+  21:array.c       ****     digits[0] = 0xC0;
+  67               		.loc 1 21 0
+  68 001e 80EC      		ldi r24,lo8(192)
+  69 0020 90E0      		ldi r25,hi8(192)
+  70 0022 9A83      		std Y+2,r25
+  71 0024 8983      		std Y+1,r24
+  22:array.c       ****     digits[1] = 0xF9;
+  72               		.loc 1 22 0
+  73 0026 89EF      		ldi r24,lo8(249)
+  74 0028 90E0      		ldi r25,hi8(249)
+  75 002a 9C83      		std Y+4,r25
+  76 002c 8B83      		std Y+3,r24
+  23:array.c       ****     digits[2] = 0xA4;
+  77               		.loc 1 23 0
+  78 002e 84EA      		ldi r24,lo8(164)
+  79 0030 90E0      		ldi r25,hi8(164)
+  80 0032 9E83      		std Y+6,r25
+  81 0034 8D83      		std Y+5,r24
+  24:array.c       ****     digits[3] = 0xB0;
+  82               		.loc 1 24 0
+  83 0036 80EB      		ldi r24,lo8(176)
+  84 0038 90E0      		ldi r25,hi8(176)
+  85 003a 9887      		std Y+8,r25
+  86 003c 8F83      		std Y+7,r24
+  25:array.c       ****     digits[4] = 0x99;
+  87               		.loc 1 25 0
+  88 003e 89E9      		ldi r24,lo8(153)
+  89 0040 90E0      		ldi r25,hi8(153)
+  90 0042 9A87      		std Y+10,r25
+  91 0044 8987      		std Y+9,r24
+  26:array.c       ****     digits[5] = 0x92;
+  92               		.loc 1 26 0
+  93 0046 82E9      		ldi r24,lo8(146)
+  94 0048 90E0      		ldi r25,hi8(146)
+  95 004a 9C87      		std Y+12,r25
+  96 004c 8B87      		std Y+11,r24
+  27:array.c       ****     digits[6] = 0x82;
+  97               		.loc 1 27 0
+  98 004e 82E8      		ldi r24,lo8(130)
+  99 0050 90E0      		ldi r25,hi8(130)
+ 100 0052 9E87      		std Y+14,r25
+ 101 0054 8D87      		std Y+13,r24
+  28:array.c       ****     digits[7] = 0xF8;
+ 102               		.loc 1 28 0
+ 103 0056 88EF      		ldi r24,lo8(248)
+ 104 0058 90E0      		ldi r25,hi8(248)
+ 105 005a 988B      		std Y+16,r25
+ 106 005c 8F87      		std Y+15,r24
+  29:array.c       ****     digits[8] = 0x80;
+ 107               		.loc 1 29 0
+ 108 005e 80E8      		ldi r24,lo8(128)
+ 109 0060 90E0      		ldi r25,hi8(128)
+ 110 0062 9A8B      		std Y+18,r25
+ 111 0064 898B      		std Y+17,r24
+  30:array.c       ****     digits[9] = 0x98;
+ 112               		.loc 1 30 0
+ 113 0066 88E9      		ldi r24,lo8(152)
+ 114 0068 90E0      		ldi r25,hi8(152)
+ 115 006a 9C8B      		std Y+20,r25
+ 116 006c 8B8B      		std Y+19,r24
+  32:array.c       ****     DDRD = 0xFF; //set PORTD for output
+ 117               		.loc 1 32 0
+ 118 006e 8FEF      		ldi r24,lo8(-1)
+ 119 0070 8AB9      		out 42-0x20,r24
+  33:array.c       ****     DDRB = 0x00; //set PORTB for input
+ 120               		.loc 1 33 0
+ 121 0072 14B8      		out 36-0x20,__zero_reg__
+ 122 0074 05E0      		ldi r16,lo8(5)
+ 123 0076 10E0      		ldi r17,hi8(5)
+ 124               	.LBB19:
+  44:array.c       ****             PORTD = 0xFF;
+ 125               		.loc 1 44 0
+ 126 0078 DD24      		clr r13
+ 127 007a DA94      		dec r13
+ 128               	.LBB20:
+ 129               	.LBB21:
+ 130               	.LBB22:
+ 131               	.LBB23:
+ 132               		.file 2 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h"
    1:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
    2:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
    3:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h ****    All rights reserved.
@@ -375,63 +338,61 @@
  103:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
  104:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** {
  105:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
- 184               		.loc 2 105 0
- 185 006a 09E1      		ldi r16,lo8(25)
- 186 006c 10E0      		ldi r17,hi8(25)
- 187               	.LBE23:
- 188               	.LBE22:
- 189               	.LBE21:
- 190               	.LBE20:
-  43:array.c       ****             PORTD = 0xFF;
- 191               		.loc 1 43 0
- 192 006e FF24      		clr r15
- 193 0070 FA94      		dec r15
- 194               	.L19:
-  36:array.c       ****         int value = decode(); //figure out which number to display on the leds
- 195               		.loc 1 36 0
- 196 0072 0E94 0000 		call decode
- 197               	.LVL0:
-  38:array.c       ****         if(value != 10) {
- 198               		.loc 1 38 0
- 199 0076 8A30      		cpi r24,10
- 200 0078 9105      		cpc r25,__zero_reg__
- 201 007a 01F0      		breq .L13
-  39:array.c       ****             PORTD = digits[value];
- 202               		.loc 1 39 0
- 203 007c FC01      		movw r30,r24
- 204 007e EE0F      		lsl r30
- 205 0080 FF1F      		rol r31
- 206 0082 81E0      		ldi r24,lo8(1)
- 207 0084 90E0      		ldi r25,hi8(1)
- 208               	.LVL1:
- 209 0086 8C0F      		add r24,r28
- 210 0088 9D1F      		adc r25,r29
- 211 008a E80F      		add r30,r24
- 212 008c F91F      		adc r31,r25
- 213 008e 8081      		ld r24,Z
- 214 0090 8BB9      		out 43-0x20,r24
- 215               	.LVL2:
- 216 0092 80E1      		ldi r24,lo8(10000)
- 217 0094 97E2      		ldi r25,hi8(10000)
- 218               	.LVL3:
- 219               	.L14:
- 220               	.LBB27:
- 221               	.LBB26:
- 222               	.LBB25:
- 223               	.LBB24:
- 224               		.loc 2 105 0
- 225 0096 F801      		movw r30,r16
- 226               	/* #APP */
- 227               	 ;  105 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h" 1
- 228 0098 3197      		1: sbiw r30,1
- 229 009a 01F4      		brne 1b
- 230               	 ;  0 "" 2
- 231               	.LVL4:
- 232               	/* #NOAPP */
- 233 009c 0197      		sbiw r24,1
- 234               	.LBE24:
- 235               	.LBE25:
- 236               		.file 3 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h"
+ 133               		.loc 2 105 0
+ 134 007c 39E1      		ldi r19,lo8(25)
+ 135 007e E32E      		mov r14,r19
+ 136 0080 F12C      		mov r15,__zero_reg__
+ 137               	.LVL3:
+ 138               	.L19:
+ 139               	.LBE23:
+ 140               	.LBE22:
+ 141               	.LBE21:
+ 142               	.LBE20:
+  37:array.c       ****         int value = decode(); //figure out which number to display on the leds
+ 143               		.loc 1 37 0
+ 144 0082 0E94 0000 		call decode
+ 145               	.LVL4:
+  39:array.c       ****         if(value != 10) {
+ 146               		.loc 1 39 0
+ 147 0086 8A30      		cpi r24,10
+ 148 0088 9105      		cpc r25,__zero_reg__
+ 149 008a 01F0      		breq .L15
+  40:array.c       ****             PORTD = digits[value];
+ 150               		.loc 1 40 0
+ 151 008c FC01      		movw r30,r24
+ 152 008e EE0F      		lsl r30
+ 153 0090 FF1F      		rol r31
+ 154 0092 81E0      		ldi r24,lo8(1)
+ 155 0094 90E0      		ldi r25,hi8(1)
+ 156               	.LVL5:
+ 157 0096 8C0F      		add r24,r28
+ 158 0098 9D1F      		adc r25,r29
+ 159 009a E80F      		add r30,r24
+ 160 009c F91F      		adc r31,r25
+ 161 009e 8081      		ld r24,Z
+ 162 00a0 8BB9      		out 43-0x20,r24
+ 163               	.LVL6:
+ 164 00a2 80E1      		ldi r24,lo8(10000)
+ 165 00a4 97E2      		ldi r25,hi8(10000)
+ 166               	.LVL7:
+ 167               	.L16:
+ 168               	.LBB27:
+ 169               	.LBB28:
+ 170               	.LBB29:
+ 171               	.LBB30:
+ 172               		.loc 2 105 0
+ 173 00a6 F701      		movw r30,r14
+ 174               	/* #APP */
+ 175               	 ;  105 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h" 1
+ 176 00a8 3197      		1: sbiw r30,1
+ 177 00aa 01F4      		brne 1b
+ 178               	 ;  0 "" 2
+ 179               	.LVL8:
+ 180               	/* #NOAPP */
+ 181 00ac 0197      		sbiw r24,1
+ 182               	.LBE30:
+ 183               	.LBE29:
+ 184               		.file 3 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h"
    1:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
    2:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
    3:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
@@ -560,55 +521,80 @@
  126:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
  127:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
  128:/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay.h **** 		while(__ticks)
- 237               		.loc 3 128 0
- 238 009e 01F4      		brne .L14
- 239 00a0 00C0      		rjmp .L19
- 240               	.LVL5:
- 241               	.L13:
- 242               	.LBE26:
- 243               	.LBE27:
-  43:array.c       ****             PORTD = 0xFF;
- 244               		.loc 1 43 0
- 245 00a2 FBB8      		out 43-0x20,r15
- 246               	.LVL6:
- 247 00a4 80E4      		ldi r24,lo8(-25536)
- 248 00a6 9CE9      		ldi r25,hi8(-25536)
- 249               	.LVL7:
- 250               	.L16:
- 251               	.LBB28:
- 252               	.LBB29:
- 253               	.LBB30:
- 254               	.LBB31:
- 255               		.loc 2 105 0
- 256 00a8 F801      		movw r30,r16
- 257               	/* #APP */
- 258               	 ;  105 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h" 1
- 259 00aa 3197      		1: sbiw r30,1
- 260 00ac 01F4      		brne 1b
- 261               	 ;  0 "" 2
- 262               	.LVL8:
- 263               	/* #NOAPP */
- 264 00ae 0197      		sbiw r24,1
- 265               	.LBE31:
- 266               	.LBE30:
- 267               		.loc 3 128 0
- 268 00b0 01F4      		brne .L16
- 269 00b2 00C0      		rjmp .L19
- 270               	.LBE29:
- 271               	.LBE28:
- 272               	.LBE19:
- 273               	.LFE4:
- 326               	.Letext0:
- 327               		.file 4 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/stdint.h"
+ 185               		.loc 3 128 0
+ 186 00ae 01F4      		brne .L16
+ 187 00b0 00C0      		rjmp .L17
+ 188               	.LVL9:
+ 189               	.L15:
+ 190               	.LBE28:
+ 191               	.LBE27:
+  44:array.c       ****             PORTD = 0xFF;
+ 192               		.loc 1 44 0
+ 193 00b2 DBB8      		out 43-0x20,r13
+ 194               	.LVL10:
+ 195 00b4 80E4      		ldi r24,lo8(-25536)
+ 196 00b6 9CE9      		ldi r25,hi8(-25536)
+ 197               	.LVL11:
+ 198               	.L18:
+ 199               	.LBB31:
+ 200               	.LBB26:
+ 201               	.LBB25:
+ 202               	.LBB24:
+ 203               		.loc 2 105 0
+ 204 00b8 F701      		movw r30,r14
+ 205               	/* #APP */
+ 206               	 ;  105 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/util/delay_basic.h" 1
+ 207 00ba 3197      		1: sbiw r30,1
+ 208 00bc 01F4      		brne 1b
+ 209               	 ;  0 "" 2
+ 210               	.LVL12:
+ 211               	/* #NOAPP */
+ 212 00be 0197      		sbiw r24,1
+ 213               	.LBE24:
+ 214               	.LBE25:
+ 215               		.loc 3 128 0
+ 216 00c0 01F4      		brne .L18
+ 217               	.LVL13:
+ 218               	.L17:
+ 219 00c2 0150      		subi r16,lo8(-(-1))
+ 220 00c4 1040      		sbci r17,hi8(-(-1))
+ 221               	.LBE26:
+ 222               	.LBE31:
+ 223               	.LBE19:
+  35:array.c       ****     while(count <= 4) {
+ 224               		.loc 1 35 0
+ 225 00c6 01F4      		brne .L19
+  52:array.c       **** }
+ 226               		.loc 1 52 0
+ 227 00c8 80E0      		ldi r24,lo8(0)
+ 228 00ca 90E0      		ldi r25,hi8(0)
+ 229               	/* epilogue start */
+ 230 00cc 6496      		adiw r28,20
+ 231 00ce 0FB6      		in __tmp_reg__,__SREG__
+ 232 00d0 F894      		cli
+ 233 00d2 DEBF      		out __SP_H__,r29
+ 234 00d4 0FBE      		out __SREG__,__tmp_reg__
+ 235 00d6 CDBF      		out __SP_L__,r28
+ 236 00d8 DF91      		pop r29
+ 237 00da CF91      		pop r28
+ 238 00dc 1F91      		pop r17
+ 239 00de 0F91      		pop r16
+ 240 00e0 FF90      		pop r15
+ 241 00e2 EF90      		pop r14
+ 242 00e4 DF90      		pop r13
+ 243 00e6 0895      		ret
+ 244               	.LFE4:
+ 327               	.Letext0:
+ 328               		.file 4 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 array.c
-     /tmp/cc6QW9Zd.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/cc6QW9Zd.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/cc6QW9Zd.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/cc6QW9Zd.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc6QW9Zd.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc6QW9Zd.s:13     .text:0000000000000000 decode
-     /tmp/cc6QW9Zd.s:103    .text.startup:0000000000000000 main
+     /tmp/cc9ncfLE.s:2      *ABS*:000000000000003f __SREG__
+     /tmp/cc9ncfLE.s:3      *ABS*:000000000000003e __SP_H__
+     /tmp/cc9ncfLE.s:4      *ABS*:000000000000003d __SP_L__
+     /tmp/cc9ncfLE.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc9ncfLE.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc9ncfLE.s:13     .text:0000000000000000 decode
+     /tmp/cc9ncfLE.s:36     .text.startup:0000000000000000 main
 
 UNDEFINED SYMBOLS
 __do_copy_data

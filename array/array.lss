@@ -3,27 +3,27 @@ array.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000001b8  00000000  00000000  00000054  2**1
+  0 .text         0000018e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .stab         00000834  00000000  00000000  0000020c  2**2
+  1 .stab         00000834  00000000  00000000  000001e4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  2 .stabstr      0000009c  00000000  00000000  00000a40  2**0
+  2 .stabstr      0000009c  00000000  00000000  00000a18  2**0
                   CONTENTS, READONLY, DEBUGGING
-  3 .debug_aranges 00000028  00000000  00000000  00000adc  2**0
+  3 .debug_aranges 00000028  00000000  00000000  00000ab4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_info   000001cf  00000000  00000000  00000b04  2**0
+  4 .debug_info   000001fb  00000000  00000000  00000adc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 00000125  00000000  00000000  00000cd3  2**0
+  5 .debug_abbrev 00000115  00000000  00000000  00000cd7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   0000011c  00000000  00000000  00000df8  2**0
+  6 .debug_line   00000116  00000000  00000000  00000dec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_frame  00000044  00000000  00000000  00000f14  2**2
+  7 .debug_frame  0000005c  00000000  00000000  00000f04  2**2
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    000000be  00000000  00000000  00000f58  2**0
+  8 .debug_str    000000c4  00000000  00000000  00000f60  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    000000e7  00000000  00000000  00001016  2**0
+  9 .debug_loc    00000190  00000000  00000000  00001024  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000060  00000000  00000000  000010fd  2**0
+ 10 .debug_ranges 00000060  00000000  00000000  000011b4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,7 +65,7 @@ Disassembly of section .text:
   68:	11 e0       	ldi	r17, 0x01	; 1
   6a:	a0 e0       	ldi	r26, 0x00	; 0
   6c:	b1 e0       	ldi	r27, 0x01	; 1
-  6e:	e8 eb       	ldi	r30, 0xB8	; 184
+  6e:	ee e8       	ldi	r30, 0x8E	; 142
   70:	f1 e0       	ldi	r31, 0x01	; 1
   72:	02 c0       	rjmp	.+4      	; 0x78 <__do_copy_data+0x10>
   74:	05 90       	lpm	r0, Z+
@@ -87,254 +87,219 @@ Disassembly of section .text:
   88:	a0 30       	cpi	r26, 0x00	; 0
   8a:	b1 07       	cpc	r27, r17
   8c:	e1 f7       	brne	.-8      	; 0x86 <.do_clear_bss_loop>
-  8e:	0e 94 80 00 	call	0x100	; 0x100 <main>
-  92:	0c 94 da 00 	jmp	0x1b4	; 0x1b4 <_exit>
+  8e:	0e 94 51 00 	call	0xa2	; 0xa2 <main>
+  92:	0c 94 c5 00 	jmp	0x18a	; 0x18a <_exit>
 
 00000096 <__bad_interrupt>:
   96:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000009a <decode>:
-}
-
 int decode(void)
 {
-        
-        if(PORTB == 0x01)
-  9a:	85 b1       	in	r24, 0x05	; 5
-  9c:	81 30       	cpi	r24, 0x01	; 1
-  9e:	c1 f0       	breq	.+48     	; 0xd0 <decode+0x36>
-           return 0;
-        else if(PORTB == 0x02)
-  a0:	85 b1       	in	r24, 0x05	; 5
-  a2:	82 30       	cpi	r24, 0x02	; 2
-  a4:	c1 f0       	breq	.+48     	; 0xd6 <decode+0x3c>
-            return 1;
-        else if(PORTB == 0x04)
-  a6:	85 b1       	in	r24, 0x05	; 5
-  a8:	84 30       	cpi	r24, 0x04	; 4
-  aa:	c1 f0       	breq	.+48     	; 0xdc <decode+0x42>
-            return 2;
-        else if(PORTB == 0x08)
-  ac:	85 b1       	in	r24, 0x05	; 5
-  ae:	88 30       	cpi	r24, 0x08	; 8
-  b0:	c1 f0       	breq	.+48     	; 0xe2 <decode+0x48>
-            return 3;
-        else if(PORTB == 0x10)
-  b2:	85 b1       	in	r24, 0x05	; 5
-  b4:	80 31       	cpi	r24, 0x10	; 16
-  b6:	c1 f0       	breq	.+48     	; 0xe8 <decode+0x4e>
-            return 4;
-        else if(PORTB == 0x20)
-  b8:	85 b1       	in	r24, 0x05	; 5
-  ba:	80 32       	cpi	r24, 0x20	; 32
-  bc:	c1 f0       	breq	.+48     	; 0xee <decode+0x54>
-            return 5;
-        else if(PORTB == 0x40)
-  be:	85 b1       	in	r24, 0x05	; 5
-  c0:	80 34       	cpi	r24, 0x40	; 64
-  c2:	c1 f0       	breq	.+48     	; 0xf4 <decode+0x5a>
-            return 6;
-        else if(PORTB == 0x80)
-  c4:	85 b1       	in	r24, 0x05	; 5
-  c6:	80 38       	cpi	r24, 0x80	; 128
-  c8:	c1 f4       	brne	.+48     	; 0xfa <decode+0x60>
-            return 7;
-  ca:	87 e0       	ldi	r24, 0x07	; 7
-  cc:	90 e0       	ldi	r25, 0x00	; 0
-  ce:	08 95       	ret
 
-int decode(void)
-{
-        
-        if(PORTB == 0x01)
-           return 0;
-  d0:	80 e0       	ldi	r24, 0x00	; 0
-  d2:	90 e0       	ldi	r25, 0x00	; 0
-  d4:	08 95       	ret
-        else if(PORTB == 0x02)
-            return 1;
-  d6:	81 e0       	ldi	r24, 0x01	; 1
-  d8:	90 e0       	ldi	r25, 0x00	; 0
-  da:	08 95       	ret
-        else if(PORTB == 0x04)
-            return 2;
-  dc:	82 e0       	ldi	r24, 0x02	; 2
-  de:	90 e0       	ldi	r25, 0x00	; 0
-  e0:	08 95       	ret
-        else if(PORTB == 0x08)
-            return 3;
-  e2:	83 e0       	ldi	r24, 0x03	; 3
-  e4:	90 e0       	ldi	r25, 0x00	; 0
-  e6:	08 95       	ret
-        else if(PORTB == 0x10)
-            return 4;
-  e8:	84 e0       	ldi	r24, 0x04	; 4
-  ea:	90 e0       	ldi	r25, 0x00	; 0
-  ec:	08 95       	ret
-        else if(PORTB == 0x20)
-            return 5;
-  ee:	85 e0       	ldi	r24, 0x05	; 5
-  f0:	90 e0       	ldi	r25, 0x00	; 0
-  f2:	08 95       	ret
-        else if(PORTB == 0x40)
-            return 6;
-  f4:	86 e0       	ldi	r24, 0x06	; 6
-  f6:	90 e0       	ldi	r25, 0x00	; 0
-  f8:	08 95       	ret
-        else if(PORTB == 0x80)
-            return 7;
-        else
-            return 10;
-  fa:	8a e0       	ldi	r24, 0x0A	; 10
-  fc:	90 e0       	ldi	r25, 0x00	; 0
-}
-  fe:	08 95       	ret
+    int input, value;
 
-00000100 <main>:
+    PORTB = input;
+  9a:	15 b8       	out	0x05, r1	; 5
+            break;
+        case 0x80:
+            value = 7;
+            break;
+        default:
+            value = 10;
+  9c:	8a e0       	ldi	r24, 0x0A	; 10
+  9e:	90 e0       	ldi	r25, 0x00	; 0
+    }
+
+    return value;
+
+}       
+  a0:	08 95       	ret
+
+000000a2 <main>:
 
 int decode (void);
 
 
 int main (void)
 {
- 100:	cf 93       	push	r28
- 102:	df 93       	push	r29
- 104:	cd b7       	in	r28, 0x3d	; 61
- 106:	de b7       	in	r29, 0x3e	; 62
- 108:	64 97       	sbiw	r28, 0x14	; 20
- 10a:	0f b6       	in	r0, 0x3f	; 63
- 10c:	f8 94       	cli
- 10e:	de bf       	out	0x3e, r29	; 62
- 110:	0f be       	out	0x3f, r0	; 63
- 112:	cd bf       	out	0x3d, r28	; 61
+  a2:	df 92       	push	r13
+  a4:	ef 92       	push	r14
+  a6:	ff 92       	push	r15
+  a8:	0f 93       	push	r16
+  aa:	1f 93       	push	r17
+  ac:	cf 93       	push	r28
+  ae:	df 93       	push	r29
+  b0:	cd b7       	in	r28, 0x3d	; 61
+  b2:	de b7       	in	r29, 0x3e	; 62
+  b4:	64 97       	sbiw	r28, 0x14	; 20
+  b6:	0f b6       	in	r0, 0x3f	; 63
+  b8:	f8 94       	cli
+  ba:	de bf       	out	0x3e, r29	; 62
+  bc:	0f be       	out	0x3f, r0	; 63
+  be:	cd bf       	out	0x3d, r28	; 61
     int digits[10];
+    int count = 0;
 
     digits[0] = 0xC0;
- 114:	80 ec       	ldi	r24, 0xC0	; 192
- 116:	90 e0       	ldi	r25, 0x00	; 0
- 118:	9a 83       	std	Y+2, r25	; 0x02
- 11a:	89 83       	std	Y+1, r24	; 0x01
+  c0:	80 ec       	ldi	r24, 0xC0	; 192
+  c2:	90 e0       	ldi	r25, 0x00	; 0
+  c4:	9a 83       	std	Y+2, r25	; 0x02
+  c6:	89 83       	std	Y+1, r24	; 0x01
     digits[1] = 0xF9;
- 11c:	89 ef       	ldi	r24, 0xF9	; 249
- 11e:	90 e0       	ldi	r25, 0x00	; 0
- 120:	9c 83       	std	Y+4, r25	; 0x04
- 122:	8b 83       	std	Y+3, r24	; 0x03
+  c8:	89 ef       	ldi	r24, 0xF9	; 249
+  ca:	90 e0       	ldi	r25, 0x00	; 0
+  cc:	9c 83       	std	Y+4, r25	; 0x04
+  ce:	8b 83       	std	Y+3, r24	; 0x03
     digits[2] = 0xA4;
- 124:	84 ea       	ldi	r24, 0xA4	; 164
- 126:	90 e0       	ldi	r25, 0x00	; 0
- 128:	9e 83       	std	Y+6, r25	; 0x06
- 12a:	8d 83       	std	Y+5, r24	; 0x05
+  d0:	84 ea       	ldi	r24, 0xA4	; 164
+  d2:	90 e0       	ldi	r25, 0x00	; 0
+  d4:	9e 83       	std	Y+6, r25	; 0x06
+  d6:	8d 83       	std	Y+5, r24	; 0x05
     digits[3] = 0xB0;
- 12c:	80 eb       	ldi	r24, 0xB0	; 176
- 12e:	90 e0       	ldi	r25, 0x00	; 0
- 130:	98 87       	std	Y+8, r25	; 0x08
- 132:	8f 83       	std	Y+7, r24	; 0x07
+  d8:	80 eb       	ldi	r24, 0xB0	; 176
+  da:	90 e0       	ldi	r25, 0x00	; 0
+  dc:	98 87       	std	Y+8, r25	; 0x08
+  de:	8f 83       	std	Y+7, r24	; 0x07
     digits[4] = 0x99;
- 134:	89 e9       	ldi	r24, 0x99	; 153
- 136:	90 e0       	ldi	r25, 0x00	; 0
- 138:	9a 87       	std	Y+10, r25	; 0x0a
- 13a:	89 87       	std	Y+9, r24	; 0x09
+  e0:	89 e9       	ldi	r24, 0x99	; 153
+  e2:	90 e0       	ldi	r25, 0x00	; 0
+  e4:	9a 87       	std	Y+10, r25	; 0x0a
+  e6:	89 87       	std	Y+9, r24	; 0x09
     digits[5] = 0x92;
- 13c:	82 e9       	ldi	r24, 0x92	; 146
- 13e:	90 e0       	ldi	r25, 0x00	; 0
- 140:	9c 87       	std	Y+12, r25	; 0x0c
- 142:	8b 87       	std	Y+11, r24	; 0x0b
+  e8:	82 e9       	ldi	r24, 0x92	; 146
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	9c 87       	std	Y+12, r25	; 0x0c
+  ee:	8b 87       	std	Y+11, r24	; 0x0b
     digits[6] = 0x82;
- 144:	82 e8       	ldi	r24, 0x82	; 130
- 146:	90 e0       	ldi	r25, 0x00	; 0
- 148:	9e 87       	std	Y+14, r25	; 0x0e
- 14a:	8d 87       	std	Y+13, r24	; 0x0d
+  f0:	82 e8       	ldi	r24, 0x82	; 130
+  f2:	90 e0       	ldi	r25, 0x00	; 0
+  f4:	9e 87       	std	Y+14, r25	; 0x0e
+  f6:	8d 87       	std	Y+13, r24	; 0x0d
     digits[7] = 0xF8;
- 14c:	88 ef       	ldi	r24, 0xF8	; 248
- 14e:	90 e0       	ldi	r25, 0x00	; 0
- 150:	98 8b       	std	Y+16, r25	; 0x10
- 152:	8f 87       	std	Y+15, r24	; 0x0f
+  f8:	88 ef       	ldi	r24, 0xF8	; 248
+  fa:	90 e0       	ldi	r25, 0x00	; 0
+  fc:	98 8b       	std	Y+16, r25	; 0x10
+  fe:	8f 87       	std	Y+15, r24	; 0x0f
     digits[8] = 0x80;
- 154:	80 e8       	ldi	r24, 0x80	; 128
- 156:	90 e0       	ldi	r25, 0x00	; 0
- 158:	9a 8b       	std	Y+18, r25	; 0x12
- 15a:	89 8b       	std	Y+17, r24	; 0x11
+ 100:	80 e8       	ldi	r24, 0x80	; 128
+ 102:	90 e0       	ldi	r25, 0x00	; 0
+ 104:	9a 8b       	std	Y+18, r25	; 0x12
+ 106:	89 8b       	std	Y+17, r24	; 0x11
     digits[9] = 0x98;
- 15c:	88 e9       	ldi	r24, 0x98	; 152
- 15e:	90 e0       	ldi	r25, 0x00	; 0
- 160:	9c 8b       	std	Y+20, r25	; 0x14
- 162:	8b 8b       	std	Y+19, r24	; 0x13
+ 108:	88 e9       	ldi	r24, 0x98	; 152
+ 10a:	90 e0       	ldi	r25, 0x00	; 0
+ 10c:	9c 8b       	std	Y+20, r25	; 0x14
+ 10e:	8b 8b       	std	Y+19, r24	; 0x13
     
     DDRD = 0xFF; //set PORTD for output
- 164:	8f ef       	ldi	r24, 0xFF	; 255
- 166:	8a b9       	out	0x0a, r24	; 10
+ 110:	8f ef       	ldi	r24, 0xFF	; 255
+ 112:	8a b9       	out	0x0a, r24	; 10
     DDRB = 0x00; //set PORTB for input
- 168:	14 b8       	out	0x04, r1	; 4
+ 114:	14 b8       	out	0x04, r1	; 4
+ 116:	05 e0       	ldi	r16, 0x05	; 5
+ 118:	10 e0       	ldi	r17, 0x00	; 0
+        if(value != 10) {
+            PORTD = digits[value];
+            _delay_ms(1000);
+        }
+        else {
+            PORTD = 0xFF;
+ 11a:	dd 24       	eor	r13, r13
+ 11c:	da 94       	dec	r13
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 16a:	09 e1       	ldi	r16, 0x19	; 25
- 16c:	10 e0       	ldi	r17, 0x00	; 0
-        if(value != 10) {
-            PORTD = digits[value];
-            _delay_ms(1000);
-        }
-        else {
-            PORTD = 0xFF;
- 16e:	ff 24       	eor	r15, r15
- 170:	fa 94       	dec	r15
+ 11e:	39 e1       	ldi	r19, 0x19	; 25
+ 120:	e3 2e       	mov	r14, r19
+ 122:	f1 2c       	mov	r15, r1
     DDRD = 0xFF; //set PORTD for output
     DDRB = 0x00; //set PORTB for input
 
-    while(1) {
+    while(count <= 4) {
 
         int value = decode(); //figure out which number to display on the leds
- 172:	0e 94 4d 00 	call	0x9a	; 0x9a <decode>
+ 124:	0e 94 4d 00 	call	0x9a	; 0x9a <decode>
         
         if(value != 10) {
- 176:	8a 30       	cpi	r24, 0x0A	; 10
- 178:	91 05       	cpc	r25, r1
- 17a:	99 f0       	breq	.+38     	; 0x1a2 <main+0xa2>
+ 128:	8a 30       	cpi	r24, 0x0A	; 10
+ 12a:	91 05       	cpc	r25, r1
+ 12c:	99 f0       	breq	.+38     	; 0x154 <main+0xb2>
             PORTD = digits[value];
- 17c:	fc 01       	movw	r30, r24
- 17e:	ee 0f       	add	r30, r30
- 180:	ff 1f       	adc	r31, r31
- 182:	81 e0       	ldi	r24, 0x01	; 1
- 184:	90 e0       	ldi	r25, 0x00	; 0
- 186:	8c 0f       	add	r24, r28
- 188:	9d 1f       	adc	r25, r29
- 18a:	e8 0f       	add	r30, r24
- 18c:	f9 1f       	adc	r31, r25
- 18e:	80 81       	ld	r24, Z
- 190:	8b b9       	out	0x0b, r24	; 11
- 192:	80 e1       	ldi	r24, 0x10	; 16
- 194:	97 e2       	ldi	r25, 0x27	; 39
- 196:	f8 01       	movw	r30, r16
- 198:	31 97       	sbiw	r30, 0x01	; 1
- 19a:	f1 f7       	brne	.-4      	; 0x198 <main+0x98>
- 19c:	01 97       	sbiw	r24, 0x01	; 1
+ 12e:	fc 01       	movw	r30, r24
+ 130:	ee 0f       	add	r30, r30
+ 132:	ff 1f       	adc	r31, r31
+ 134:	81 e0       	ldi	r24, 0x01	; 1
+ 136:	90 e0       	ldi	r25, 0x00	; 0
+ 138:	8c 0f       	add	r24, r28
+ 13a:	9d 1f       	adc	r25, r29
+ 13c:	e8 0f       	add	r30, r24
+ 13e:	f9 1f       	adc	r31, r25
+ 140:	80 81       	ld	r24, Z
+ 142:	8b b9       	out	0x0b, r24	; 11
+ 144:	80 e1       	ldi	r24, 0x10	; 16
+ 146:	97 e2       	ldi	r25, 0x27	; 39
+ 148:	f7 01       	movw	r30, r14
+ 14a:	31 97       	sbiw	r30, 0x01	; 1
+ 14c:	f1 f7       	brne	.-4      	; 0x14a <main+0xa8>
+ 14e:	01 97       	sbiw	r24, 0x01	; 1
 		__ticks = 1;
 	else if (__tmp > 65535)
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
 		while(__ticks)
- 19e:	d9 f7       	brne	.-10     	; 0x196 <main+0x96>
- 1a0:	e8 cf       	rjmp	.-48     	; 0x172 <main+0x72>
+ 150:	d9 f7       	brne	.-10     	; 0x148 <main+0xa6>
+ 152:	08 c0       	rjmp	.+16     	; 0x164 <main+0xc2>
             _delay_ms(1000);
         }
         else {
             PORTD = 0xFF;
- 1a2:	fb b8       	out	0x0b, r15	; 11
- 1a4:	80 e4       	ldi	r24, 0x40	; 64
- 1a6:	9c e9       	ldi	r25, 0x9C	; 156
- 1a8:	f8 01       	movw	r30, r16
- 1aa:	31 97       	sbiw	r30, 0x01	; 1
- 1ac:	f1 f7       	brne	.-4      	; 0x1aa <main+0xaa>
- 1ae:	01 97       	sbiw	r24, 0x01	; 1
- 1b0:	d9 f7       	brne	.-10     	; 0x1a8 <main+0xa8>
- 1b2:	df cf       	rjmp	.-66     	; 0x172 <main+0x72>
+ 154:	db b8       	out	0x0b, r13	; 11
+ 156:	80 e4       	ldi	r24, 0x40	; 64
+ 158:	9c e9       	ldi	r25, 0x9C	; 156
+ 15a:	f7 01       	movw	r30, r14
+ 15c:	31 97       	sbiw	r30, 0x01	; 1
+ 15e:	f1 f7       	brne	.-4      	; 0x15c <main+0xba>
+ 160:	01 97       	sbiw	r24, 0x01	; 1
+ 162:	d9 f7       	brne	.-10     	; 0x15a <main+0xb8>
+ 164:	01 50       	subi	r16, 0x01	; 1
+ 166:	10 40       	sbci	r17, 0x00	; 0
+    digits[9] = 0x98;
+    
+    DDRD = 0xFF; //set PORTD for output
+    DDRB = 0x00; //set PORTB for input
 
-000001b4 <_exit>:
- 1b4:	f8 94       	cli
+    while(count <= 4) {
+ 168:	e9 f6       	brne	.-70     	; 0x124 <main+0x82>
+        count++;
+        
+    }
 
-000001b6 <__stop_program>:
- 1b6:	ff cf       	rjmp	.-2      	; 0x1b6 <__stop_program>
+    return 0;
+}
+ 16a:	80 e0       	ldi	r24, 0x00	; 0
+ 16c:	90 e0       	ldi	r25, 0x00	; 0
+ 16e:	64 96       	adiw	r28, 0x14	; 20
+ 170:	0f b6       	in	r0, 0x3f	; 63
+ 172:	f8 94       	cli
+ 174:	de bf       	out	0x3e, r29	; 62
+ 176:	0f be       	out	0x3f, r0	; 63
+ 178:	cd bf       	out	0x3d, r28	; 61
+ 17a:	df 91       	pop	r29
+ 17c:	cf 91       	pop	r28
+ 17e:	1f 91       	pop	r17
+ 180:	0f 91       	pop	r16
+ 182:	ff 90       	pop	r15
+ 184:	ef 90       	pop	r14
+ 186:	df 90       	pop	r13
+ 188:	08 95       	ret
+
+0000018a <_exit>:
+ 18a:	f8 94       	cli
+
+0000018c <__stop_program>:
+ 18c:	ff cf       	rjmp	.-2      	; 0x18c <__stop_program>
