@@ -1,0 +1,340 @@
+
+array.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001b8  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .stab         00000834  00000000  00000000  0000020c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  2 .stabstr      0000009c  00000000  00000000  00000a40  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_aranges 00000028  00000000  00000000  00000adc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000001cf  00000000  00000000  00000b04  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000125  00000000  00000000  00000cd3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   0000011c  00000000  00000000  00000df8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000044  00000000  00000000  00000f14  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000000be  00000000  00000000  00000f58  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000000e7  00000000  00000000  00001016  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000060  00000000  00000000  000010fd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2e 00 	jmp	0x5c	; 0x5c <__ctors_end>
+   4:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+   8:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+   c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  10:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  14:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  18:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  1c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  20:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  24:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  28:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  2c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  30:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  34:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  38:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  3c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  40:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  44:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  48:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  4c:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  50:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  54:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+  58:	0c 94 4b 00 	jmp	0x96	; 0x96 <__bad_interrupt>
+
+0000005c <__ctors_end>:
+  5c:	11 24       	eor	r1, r1
+  5e:	1f be       	out	0x3f, r1	; 63
+  60:	cf ef       	ldi	r28, 0xFF	; 255
+  62:	d4 e0       	ldi	r29, 0x04	; 4
+  64:	de bf       	out	0x3e, r29	; 62
+  66:	cd bf       	out	0x3d, r28	; 61
+
+00000068 <__do_copy_data>:
+  68:	11 e0       	ldi	r17, 0x01	; 1
+  6a:	a0 e0       	ldi	r26, 0x00	; 0
+  6c:	b1 e0       	ldi	r27, 0x01	; 1
+  6e:	e8 eb       	ldi	r30, 0xB8	; 184
+  70:	f1 e0       	ldi	r31, 0x01	; 1
+  72:	02 c0       	rjmp	.+4      	; 0x78 <__do_copy_data+0x10>
+  74:	05 90       	lpm	r0, Z+
+  76:	0d 92       	st	X+, r0
+  78:	a0 30       	cpi	r26, 0x00	; 0
+  7a:	b1 07       	cpc	r27, r17
+  7c:	d9 f7       	brne	.-10     	; 0x74 <__do_copy_data+0xc>
+
+0000007e <__do_clear_bss>:
+  7e:	11 e0       	ldi	r17, 0x01	; 1
+  80:	a0 e0       	ldi	r26, 0x00	; 0
+  82:	b1 e0       	ldi	r27, 0x01	; 1
+  84:	01 c0       	rjmp	.+2      	; 0x88 <.do_clear_bss_start>
+
+00000086 <.do_clear_bss_loop>:
+  86:	1d 92       	st	X+, r1
+
+00000088 <.do_clear_bss_start>:
+  88:	a0 30       	cpi	r26, 0x00	; 0
+  8a:	b1 07       	cpc	r27, r17
+  8c:	e1 f7       	brne	.-8      	; 0x86 <.do_clear_bss_loop>
+  8e:	0e 94 80 00 	call	0x100	; 0x100 <main>
+  92:	0c 94 da 00 	jmp	0x1b4	; 0x1b4 <_exit>
+
+00000096 <__bad_interrupt>:
+  96:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000009a <decode>:
+}
+
+int decode(void)
+{
+        
+        if(PORTB == 0x01)
+  9a:	85 b1       	in	r24, 0x05	; 5
+  9c:	81 30       	cpi	r24, 0x01	; 1
+  9e:	c1 f0       	breq	.+48     	; 0xd0 <decode+0x36>
+           return 0;
+        else if(PORTB == 0x02)
+  a0:	85 b1       	in	r24, 0x05	; 5
+  a2:	82 30       	cpi	r24, 0x02	; 2
+  a4:	c1 f0       	breq	.+48     	; 0xd6 <decode+0x3c>
+            return 1;
+        else if(PORTB == 0x04)
+  a6:	85 b1       	in	r24, 0x05	; 5
+  a8:	84 30       	cpi	r24, 0x04	; 4
+  aa:	c1 f0       	breq	.+48     	; 0xdc <decode+0x42>
+            return 2;
+        else if(PORTB == 0x08)
+  ac:	85 b1       	in	r24, 0x05	; 5
+  ae:	88 30       	cpi	r24, 0x08	; 8
+  b0:	c1 f0       	breq	.+48     	; 0xe2 <decode+0x48>
+            return 3;
+        else if(PORTB == 0x10)
+  b2:	85 b1       	in	r24, 0x05	; 5
+  b4:	80 31       	cpi	r24, 0x10	; 16
+  b6:	c1 f0       	breq	.+48     	; 0xe8 <decode+0x4e>
+            return 4;
+        else if(PORTB == 0x20)
+  b8:	85 b1       	in	r24, 0x05	; 5
+  ba:	80 32       	cpi	r24, 0x20	; 32
+  bc:	c1 f0       	breq	.+48     	; 0xee <decode+0x54>
+            return 5;
+        else if(PORTB == 0x40)
+  be:	85 b1       	in	r24, 0x05	; 5
+  c0:	80 34       	cpi	r24, 0x40	; 64
+  c2:	c1 f0       	breq	.+48     	; 0xf4 <decode+0x5a>
+            return 6;
+        else if(PORTB == 0x80)
+  c4:	85 b1       	in	r24, 0x05	; 5
+  c6:	80 38       	cpi	r24, 0x80	; 128
+  c8:	c1 f4       	brne	.+48     	; 0xfa <decode+0x60>
+            return 7;
+  ca:	87 e0       	ldi	r24, 0x07	; 7
+  cc:	90 e0       	ldi	r25, 0x00	; 0
+  ce:	08 95       	ret
+
+int decode(void)
+{
+        
+        if(PORTB == 0x01)
+           return 0;
+  d0:	80 e0       	ldi	r24, 0x00	; 0
+  d2:	90 e0       	ldi	r25, 0x00	; 0
+  d4:	08 95       	ret
+        else if(PORTB == 0x02)
+            return 1;
+  d6:	81 e0       	ldi	r24, 0x01	; 1
+  d8:	90 e0       	ldi	r25, 0x00	; 0
+  da:	08 95       	ret
+        else if(PORTB == 0x04)
+            return 2;
+  dc:	82 e0       	ldi	r24, 0x02	; 2
+  de:	90 e0       	ldi	r25, 0x00	; 0
+  e0:	08 95       	ret
+        else if(PORTB == 0x08)
+            return 3;
+  e2:	83 e0       	ldi	r24, 0x03	; 3
+  e4:	90 e0       	ldi	r25, 0x00	; 0
+  e6:	08 95       	ret
+        else if(PORTB == 0x10)
+            return 4;
+  e8:	84 e0       	ldi	r24, 0x04	; 4
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	08 95       	ret
+        else if(PORTB == 0x20)
+            return 5;
+  ee:	85 e0       	ldi	r24, 0x05	; 5
+  f0:	90 e0       	ldi	r25, 0x00	; 0
+  f2:	08 95       	ret
+        else if(PORTB == 0x40)
+            return 6;
+  f4:	86 e0       	ldi	r24, 0x06	; 6
+  f6:	90 e0       	ldi	r25, 0x00	; 0
+  f8:	08 95       	ret
+        else if(PORTB == 0x80)
+            return 7;
+        else
+            return 10;
+  fa:	8a e0       	ldi	r24, 0x0A	; 10
+  fc:	90 e0       	ldi	r25, 0x00	; 0
+}
+  fe:	08 95       	ret
+
+00000100 <main>:
+
+int decode (void);
+
+
+int main (void)
+{
+ 100:	cf 93       	push	r28
+ 102:	df 93       	push	r29
+ 104:	cd b7       	in	r28, 0x3d	; 61
+ 106:	de b7       	in	r29, 0x3e	; 62
+ 108:	64 97       	sbiw	r28, 0x14	; 20
+ 10a:	0f b6       	in	r0, 0x3f	; 63
+ 10c:	f8 94       	cli
+ 10e:	de bf       	out	0x3e, r29	; 62
+ 110:	0f be       	out	0x3f, r0	; 63
+ 112:	cd bf       	out	0x3d, r28	; 61
+    int digits[10];
+
+    digits[0] = 0xC0;
+ 114:	80 ec       	ldi	r24, 0xC0	; 192
+ 116:	90 e0       	ldi	r25, 0x00	; 0
+ 118:	9a 83       	std	Y+2, r25	; 0x02
+ 11a:	89 83       	std	Y+1, r24	; 0x01
+    digits[1] = 0xF9;
+ 11c:	89 ef       	ldi	r24, 0xF9	; 249
+ 11e:	90 e0       	ldi	r25, 0x00	; 0
+ 120:	9c 83       	std	Y+4, r25	; 0x04
+ 122:	8b 83       	std	Y+3, r24	; 0x03
+    digits[2] = 0xA4;
+ 124:	84 ea       	ldi	r24, 0xA4	; 164
+ 126:	90 e0       	ldi	r25, 0x00	; 0
+ 128:	9e 83       	std	Y+6, r25	; 0x06
+ 12a:	8d 83       	std	Y+5, r24	; 0x05
+    digits[3] = 0xB0;
+ 12c:	80 eb       	ldi	r24, 0xB0	; 176
+ 12e:	90 e0       	ldi	r25, 0x00	; 0
+ 130:	98 87       	std	Y+8, r25	; 0x08
+ 132:	8f 83       	std	Y+7, r24	; 0x07
+    digits[4] = 0x99;
+ 134:	89 e9       	ldi	r24, 0x99	; 153
+ 136:	90 e0       	ldi	r25, 0x00	; 0
+ 138:	9a 87       	std	Y+10, r25	; 0x0a
+ 13a:	89 87       	std	Y+9, r24	; 0x09
+    digits[5] = 0x92;
+ 13c:	82 e9       	ldi	r24, 0x92	; 146
+ 13e:	90 e0       	ldi	r25, 0x00	; 0
+ 140:	9c 87       	std	Y+12, r25	; 0x0c
+ 142:	8b 87       	std	Y+11, r24	; 0x0b
+    digits[6] = 0x82;
+ 144:	82 e8       	ldi	r24, 0x82	; 130
+ 146:	90 e0       	ldi	r25, 0x00	; 0
+ 148:	9e 87       	std	Y+14, r25	; 0x0e
+ 14a:	8d 87       	std	Y+13, r24	; 0x0d
+    digits[7] = 0xF8;
+ 14c:	88 ef       	ldi	r24, 0xF8	; 248
+ 14e:	90 e0       	ldi	r25, 0x00	; 0
+ 150:	98 8b       	std	Y+16, r25	; 0x10
+ 152:	8f 87       	std	Y+15, r24	; 0x0f
+    digits[8] = 0x80;
+ 154:	80 e8       	ldi	r24, 0x80	; 128
+ 156:	90 e0       	ldi	r25, 0x00	; 0
+ 158:	9a 8b       	std	Y+18, r25	; 0x12
+ 15a:	89 8b       	std	Y+17, r24	; 0x11
+    digits[9] = 0x98;
+ 15c:	88 e9       	ldi	r24, 0x98	; 152
+ 15e:	90 e0       	ldi	r25, 0x00	; 0
+ 160:	9c 8b       	std	Y+20, r25	; 0x14
+ 162:	8b 8b       	std	Y+19, r24	; 0x13
+    
+    DDRD = 0xFF; //set PORTD for output
+ 164:	8f ef       	ldi	r24, 0xFF	; 255
+ 166:	8a b9       	out	0x0a, r24	; 10
+    DDRB = 0x00; //set PORTB for input
+ 168:	14 b8       	out	0x04, r1	; 4
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 16a:	09 e1       	ldi	r16, 0x19	; 25
+ 16c:	10 e0       	ldi	r17, 0x00	; 0
+        if(value != 10) {
+            PORTD = digits[value];
+            _delay_ms(1000);
+        }
+        else {
+            PORTD = 0xFF;
+ 16e:	ff 24       	eor	r15, r15
+ 170:	fa 94       	dec	r15
+    DDRD = 0xFF; //set PORTD for output
+    DDRB = 0x00; //set PORTB for input
+
+    while(1) {
+
+        int value = decode(); //figure out which number to display on the leds
+ 172:	0e 94 4d 00 	call	0x9a	; 0x9a <decode>
+        
+        if(value != 10) {
+ 176:	8a 30       	cpi	r24, 0x0A	; 10
+ 178:	91 05       	cpc	r25, r1
+ 17a:	99 f0       	breq	.+38     	; 0x1a2 <main+0xa2>
+            PORTD = digits[value];
+ 17c:	fc 01       	movw	r30, r24
+ 17e:	ee 0f       	add	r30, r30
+ 180:	ff 1f       	adc	r31, r31
+ 182:	81 e0       	ldi	r24, 0x01	; 1
+ 184:	90 e0       	ldi	r25, 0x00	; 0
+ 186:	8c 0f       	add	r24, r28
+ 188:	9d 1f       	adc	r25, r29
+ 18a:	e8 0f       	add	r30, r24
+ 18c:	f9 1f       	adc	r31, r25
+ 18e:	80 81       	ld	r24, Z
+ 190:	8b b9       	out	0x0b, r24	; 11
+ 192:	80 e1       	ldi	r24, 0x10	; 16
+ 194:	97 e2       	ldi	r25, 0x27	; 39
+ 196:	f8 01       	movw	r30, r16
+ 198:	31 97       	sbiw	r30, 0x01	; 1
+ 19a:	f1 f7       	brne	.-4      	; 0x198 <main+0x98>
+ 19c:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 19e:	d9 f7       	brne	.-10     	; 0x196 <main+0x96>
+ 1a0:	e8 cf       	rjmp	.-48     	; 0x172 <main+0x72>
+            _delay_ms(1000);
+        }
+        else {
+            PORTD = 0xFF;
+ 1a2:	fb b8       	out	0x0b, r15	; 11
+ 1a4:	80 e4       	ldi	r24, 0x40	; 64
+ 1a6:	9c e9       	ldi	r25, 0x9C	; 156
+ 1a8:	f8 01       	movw	r30, r16
+ 1aa:	31 97       	sbiw	r30, 0x01	; 1
+ 1ac:	f1 f7       	brne	.-4      	; 0x1aa <main+0xaa>
+ 1ae:	01 97       	sbiw	r24, 0x01	; 1
+ 1b0:	d9 f7       	brne	.-10     	; 0x1a8 <main+0xa8>
+ 1b2:	df cf       	rjmp	.-66     	; 0x172 <main+0x72>
+
+000001b4 <_exit>:
+ 1b4:	f8 94       	cli
+
+000001b6 <__stop_program>:
+ 1b6:	ff cf       	rjmp	.-2      	; 0x1b6 <__stop_program>
