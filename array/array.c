@@ -8,6 +8,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#define F_CPU 1000000UL
 
 
 int decode (void);
@@ -16,7 +17,7 @@ int decode (void);
 int main (void)
 {
     int digits[10];
-    int count = 0;
+    int rotate, value;
 
     digits[0] = 0xC0;
     digits[1] = 0xF9;
@@ -28,59 +29,60 @@ int main (void)
     digits[7] = 0xF8;
     digits[8] = 0x80;
     digits[9] = 0x98;
+    digits[10] = 0xC1;
     
     DDRD = 0xFF; //set PORTD for output
-    DDRB = 0x00; //set PORTB for input
 
-    while(count <= 4) {
-
-        int value = decode(); //figure out which number to display on the leds
+    while(1) {
         
-        if(value != 10) {
-            PORTD = digits[value];
+        /*rotate = 0;
+
+        while(rotate < 10) {
+
+            PORTD = ~digits[rotate];
             _delay_ms(1000);
-        }
-        else {
-            PORTD = 0xFF;
-            _delay_ms(4000);
-        }
-        count++;
+            rotate++;
+        }*/
+        value = decode(); //figure out which number to display on the leds
+        
+        PORTD = value;
         
     }
 
     return 0;
 }
 
-int decode(void)
+int decode (void)
 {
+    DDRB = 0x00; //accept input from PORTB
 
     int input, value;
 
-    PORTB = input;
-    
+    input = PINB; //take input from PORTB
+
     switch (input) {
-        case 0x01:
+        case 1:
             value = 0;
             break;
-        case 0x02:
+        case 2:
             value = 1;
             break;
-        case 0x04:
+        case 4:
             value = 2;
             break;
-        case 0x08:
+        case 8:
             value = 3;
             break;
-        case 0x10:
+        case 16:
             value = 4;
             break;
-        case 0x20:
+        case 32:
             value = 5;
             break;
-        case 0x40:
+        case 64:
             value = 6;
             break;
-        case 0x80:
+        case 128:
             value = 7;
             break;
         default:
@@ -90,3 +92,4 @@ int decode(void)
     return value;
 
 }       
+
