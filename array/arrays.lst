@@ -71,35 +71,15 @@
   57:arrays.c      ****             strikes = 0;
   58:arrays.c      ****             PORTD = digits[strikes];
   59:arrays.c      ****         }
-  60:arrays.c      ****         //_delay_ms(2000);
-  61:arrays.c      **** 
-  62:arrays.c      ****         /*       
-  63:arrays.c      ****         rotate = 0;
-  64:arrays.c      **** 
-  65:arrays.c      ****         while(rotate < 10) {
-  66:arrays.c      **** 
-  67:arrays.c      ****             PORTD = digits[rotate];
-  68:arrays.c      ****             _delay_ms(2000);
-  69:arrays.c      ****             rotate++;
-  70:arrays.c      ****         }
-  71:arrays.c      **** 
-  72:arrays.c      ****         rotate = 0;
-  73:arrays.c      **** 
-  74:arrays.c      ****         while(rotate < 10) {
-  75:arrays.c      ****             PORTB = digits[rotate];
-  76:arrays.c      ****             _delay_ms(2000);
-  77:arrays.c      ****             rotate++;
-  78:arrays.c      ****         }
-  79:arrays.c      ****         */
-  80:arrays.c      ****         
-  81:arrays.c      ****     }
-  82:arrays.c      **** 
-  83:arrays.c      ****     return 0;
-  84:arrays.c      **** }
-  85:arrays.c      **** 
-  86:arrays.c      **** int decode (int *test)
-  87:arrays.c      **** {
-  16               		.loc 1 87 0
+  60:arrays.c      ****         
+  61:arrays.c      ****     }
+  62:arrays.c      **** 
+  63:arrays.c      ****     return 0;
+  64:arrays.c      **** }
+  65:arrays.c      **** 
+  66:arrays.c      **** int decode (int *test)
+  67:arrays.c      **** {
+  16               		.loc 1 67 0
   17               	.LVL0:
   18               	/* prologue: function */
   19               	/* frame size = 0 */
@@ -108,51 +88,51 @@
   22 0000 FC01      		movw r30,r24
   23               	.LVL1:
   24               	.L4:
-  88:arrays.c      ****     int strikeButton;
-  89:arrays.c      ****     int ballButton;
-  90:arrays.c      **** 
-  91:arrays.c      ****     while(1) {
-  92:arrays.c      ****         
-  93:arrays.c      ****         ballButton = PINB & 0x80;
-  94:arrays.c      ****         strikeButton = PIND & 0x80;
-  25               		.loc 1 94 0
+  68:arrays.c      ****     int strikeButton;
+  69:arrays.c      ****     int ballButton;
+  70:arrays.c      **** 
+  71:arrays.c      ****     while(1) {
+  72:arrays.c      ****         
+  73:arrays.c      ****         ballButton = PINB & 0x80;
+  74:arrays.c      ****         strikeButton = PIND & 0x80;
+  25               		.loc 1 74 0
   26 0002 89B1      		in r24,41-0x20
   27               	.LVL2:
-  95:arrays.c      **** 
-  96:arrays.c      ****         if(ballButton == 128) {
-  28               		.loc 1 96 0
+  75:arrays.c      **** 
+  76:arrays.c      ****         if(ballButton == 128) {
+  28               		.loc 1 76 0
   29 0004 1F9B      		sbis 35-0x20,7
   30 0006 00C0      		rjmp .L2
-  97:arrays.c      ****             *test = 1;
-  31               		.loc 1 97 0
+  77:arrays.c      ****             *test = 1;
+  31               		.loc 1 77 0
   32 0008 81E0      		ldi r24,lo8(1)
   33 000a 90E0      		ldi r25,hi8(1)
   34               	.LVL3:
   35 000c 00C0      		rjmp .L6
   36               	.LVL4:
   37               	.L2:
-  98:arrays.c      ****             break;
-  99:arrays.c      ****         }
- 100:arrays.c      ****         else if(strikeButton == 128) {
-  38               		.loc 1 100 0
+  78:arrays.c      ****             break;
+  79:arrays.c      ****         }
+  80:arrays.c      ****         else if(strikeButton == 128) {
+  38               		.loc 1 80 0
   39 000e 87FF      		sbrs r24,7
   40 0010 00C0      		rjmp .L4
- 101:arrays.c      ****             *test = 2;
-  41               		.loc 1 101 0
+  81:arrays.c      ****             *test = 2;
+  41               		.loc 1 81 0
   42 0012 82E0      		ldi r24,lo8(2)
   43 0014 90E0      		ldi r25,hi8(2)
   44               	.LVL5:
   45               	.L6:
   46 0016 9183      		std Z+1,r25
   47 0018 8083      		st Z,r24
- 102:arrays.c      ****             break;
- 103:arrays.c      ****         }
- 104:arrays.c      ****     }
- 105:arrays.c      **** 
- 106:arrays.c      ****     return *test;
- 107:arrays.c      **** 
- 108:arrays.c      **** }
-  48               		.loc 1 108 0
+  82:arrays.c      ****             break;
+  83:arrays.c      ****         }
+  84:arrays.c      ****     }
+  85:arrays.c      **** 
+  86:arrays.c      ****     return *test;
+  87:arrays.c      **** 
+  88:arrays.c      **** }
+  48               		.loc 1 88 0
   49 001a 8081      		ld r24,Z
   50 001c 9181      		ldd r25,Z+1
   51               	/* epilogue start */
@@ -349,13 +329,13 @@
  270               		.file 2 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 arrays.c
-     /tmp/ccENhNnm.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccENhNnm.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccENhNnm.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccENhNnm.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccENhNnm.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccENhNnm.s:13     .text:0000000000000000 decode
-     /tmp/ccENhNnm.s:58     .text.startup:0000000000000000 main
+     /tmp/ccGsaXom.s:2      *ABS*:000000000000003f __SREG__
+     /tmp/ccGsaXom.s:3      *ABS*:000000000000003e __SP_H__
+     /tmp/ccGsaXom.s:4      *ABS*:000000000000003d __SP_L__
+     /tmp/ccGsaXom.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccGsaXom.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccGsaXom.s:13     .text:0000000000000000 decode
+     /tmp/ccGsaXom.s:58     .text.startup:0000000000000000 main
 
 UNDEFINED SYMBOLS
 __do_copy_data

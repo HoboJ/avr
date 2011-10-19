@@ -58,27 +58,6 @@ int main (void)
             PORTD = digits[strikes];
         }
         
-        //_delay_ms(2000);
-
-        /*       
-        rotate = 0;
-
-        while(rotate < 10) {
-
-            PORTD = digits[rotate];
-            _delay_ms(2000);
-            rotate++;
-        }
-
-        rotate = 0;
-
-        while(rotate < 10) {
-            PORTB = digits[rotate];
-            _delay_ms(2000);
-            rotate++;
-        }
-        */
-        
     }
 
     return 0;
