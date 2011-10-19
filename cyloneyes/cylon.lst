@@ -338,12 +338,12 @@
  195               		.file 3 "/usr/lib/gcc/avr/4.6.1/../../../../avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 cylon.c
-     /tmp/ccK7Zpnc.s:2      *ABS*:000000000000003f __SREG__
-     /tmp/ccK7Zpnc.s:3      *ABS*:000000000000003e __SP_H__
-     /tmp/ccK7Zpnc.s:4      *ABS*:000000000000003d __SP_L__
-     /tmp/ccK7Zpnc.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccK7Zpnc.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccK7Zpnc.s:14     .text.startup:0000000000000000 main
+     /tmp/ccrFnAJF.s:2      *ABS*:000000000000003f __SREG__
+     /tmp/ccrFnAJF.s:3      *ABS*:000000000000003e __SP_H__
+     /tmp/ccrFnAJF.s:4      *ABS*:000000000000003d __SP_L__
+     /tmp/ccrFnAJF.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccrFnAJF.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccrFnAJF.s:14     .text.startup:0000000000000000 main
 
 UNDEFINED SYMBOLS
 __do_copy_data

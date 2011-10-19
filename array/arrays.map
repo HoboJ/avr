@@ -3,9 +3,9 @@ Archive member included because of file (symbol)
 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
                               /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o (exit)
 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
-                              array.o (__do_copy_data)
+                              arrays.o (__do_copy_data)
 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
-                              array.o (__do_clear_bss)
+                              arrays.o (__do_clear_bss)
 
 Memory Configuration
 
@@ -19,7 +19,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
-LOAD array.o
+LOAD arrays.o
 LOAD /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/libm.a
 LOAD /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a
 LOAD /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/libc.a
@@ -115,7 +115,7 @@ LOAD /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x112
+.text           0x0000000000000000      0x1a0
  *(.vectors)
  .vectors       0x0000000000000000       0x5c /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
                 0x0000000000000000                __vectors
@@ -194,23 +194,23 @@ LOAD /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a
                 0x0000000000000096                __vector_16
                 0x0000000000000096                __vector_18
                 0x0000000000000096                __vector_20
- .text          0x000000000000009a       0x68 array.o
+ .text          0x000000000000009a       0x20 arrays.o
                 0x000000000000009a                decode
- .text          0x0000000000000102        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
- .text          0x0000000000000102        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
- .text          0x0000000000000102        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
-                0x0000000000000102                . = ALIGN (0x2)
+ .text          0x00000000000000ba        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
+ .text          0x00000000000000ba        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
+ .text          0x00000000000000ba        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
+                0x00000000000000ba                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x0000000000000102        0xc array.o
-                0x0000000000000102                main
- .text.libgcc   0x000000000000010e        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
- .text.libgcc   0x000000000000010e        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
- .text.libgcc   0x000000000000010e        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
-                0x000000000000010e                . = ALIGN (0x2)
+ .text.startup  0x00000000000000ba       0xe2 arrays.o
+                0x00000000000000ba                main
+ .text.libgcc   0x000000000000019c        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x000000000000019c        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc   0x000000000000019c        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
+                0x000000000000019c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000010e        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
-                0x000000000000010e                exit
-                0x000000000000010e                _exit
+ .fini9         0x000000000000019c        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
+                0x000000000000019c                exit
+                0x000000000000019c                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -229,15 +229,15 @@ LOAD /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000010e        0x4 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
+ .fini0         0x000000000000019c        0x4 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000112                _etext = .
+                0x00000000000001a0                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x0000000000000112
+.data           0x0000000000800100        0x0 load address 0x00000000000001a0
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
- .data          0x0000000000800100        0x0 array.o
+ .data          0x0000000000800100        0x0 arrays.o
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
@@ -253,15 +253,15 @@ LOAD /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a
                 0x0000000000800100                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
- .bss           0x0000000000800100        0x0 array.o
+ .bss           0x0000000000800100        0x0 arrays.o
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
                 0x0000000000800100                PROVIDE (__bss_end, .)
-                0x0000000000000112                __data_load_start = LOADADDR (.data)
-                0x0000000000000112                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000000000001a0                __data_load_start = LOADADDR (.data)
+                0x00000000000001a0                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800100        0x0
                 0x0000000000800100                PROVIDE (__noinit_start, .)
@@ -318,44 +318,44 @@ LOAD /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a
 .debug_aranges  0x0000000000000000       0x28
  *(.debug_aranges)
  .debug_aranges
-                0x0000000000000000       0x28 array.o
+                0x0000000000000000       0x28 arrays.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000       0xf4
+.debug_info     0x0000000000000000      0x122
  *(.debug_info)
- .debug_info    0x0000000000000000       0xf4 array.o
+ .debug_info    0x0000000000000000      0x122 arrays.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x0000000000000000       0x7e
+.debug_abbrev   0x0000000000000000       0xbe
  *(.debug_abbrev)
- .debug_abbrev  0x0000000000000000       0x7e array.o
+ .debug_abbrev  0x0000000000000000       0xbe arrays.o
 
-.debug_line     0x0000000000000000       0xa8
+.debug_line     0x0000000000000000       0xac
  *(.debug_line)
- .debug_line    0x0000000000000000       0xa8 array.o
+ .debug_line    0x0000000000000000       0xac arrays.o
 
-.debug_frame    0x0000000000000000       0x34
+.debug_frame    0x0000000000000000       0x44
  *(.debug_frame)
- .debug_frame   0x0000000000000000       0x34 array.o
+ .debug_frame   0x0000000000000000       0x44 arrays.o
 
-.debug_str      0x0000000000000000       0x88
+.debug_str      0x0000000000000000       0xa1
  *(.debug_str)
- .debug_str     0x0000000000000000       0x88 array.o
-                                         0xbc (size before relaxing)
+ .debug_str     0x0000000000000000       0xa1 arrays.o
+                                         0xd5 (size before relaxing)
 
-.debug_loc      0x0000000000000000      0x10d
+.debug_loc      0x0000000000000000       0xf3
  *(.debug_loc)
- .debug_loc     0x0000000000000000      0x10d array.o
+ .debug_loc     0x0000000000000000       0xf3 arrays.o
 
 .debug_macinfo
  *(.debug_macinfo)
-OUTPUT(array.elf elf32-avr)
+OUTPUT(arrays.elf elf32-avr)
 LOAD linker stubs
 
 .debug_ranges   0x0000000000000000       0x18
- .debug_ranges  0x0000000000000000       0x18 array.o
+ .debug_ranges  0x0000000000000000       0x18 arrays.o
 
 Cross Reference Table
 
@@ -367,9 +367,9 @@ __data_end                                        /usr/lib/gcc/avr/4.6.1/avr5/li
 __data_load_start                                 /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
 __data_start                                      /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
 __do_clear_bss                                    /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_clear_bss.o)
-                                                  array.o
+                                                  arrays.o
 __do_copy_data                                    /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_copy_data.o)
-                                                  array.o
+                                                  arrays.o
 __heap_end                                        /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
 __init                                            /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
 __stack                                           /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
@@ -398,8 +398,8 @@ __vector_9                                        /usr/lib/gcc/avr/4.6.1/../../.
 __vector_default                                  /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
 __vectors                                         /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
 _exit                                             /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
-decode                                            array.o
+decode                                            arrays.o
 exit                                              /usr/lib/gcc/avr/4.6.1/avr5/libgcc.a(_exit.o)
                                                   /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o
-main                                              array.o
+main                                              arrays.o
                                                   /usr/lib/gcc/avr/4.6.1/../../../../avr/lib/avr5/crtm169.o

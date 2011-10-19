@@ -70,7 +70,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = array
+TARGET = arrays
 
 
 # Object files directory
