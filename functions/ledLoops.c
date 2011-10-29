@@ -38,7 +38,7 @@ void loopRight (int delay)
         
         while (1) {
             
-            for (int i = 128; i >= 1; i >>= 1) //loop right on the leds
+            for (int i = 128; i >= 1; i >>= 2) //loop right on the leds
             {
                 PORTD = i;
                 _delay_ms(delay);

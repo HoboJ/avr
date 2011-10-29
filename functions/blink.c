@@ -9,13 +9,13 @@
 int main (void)
 {
    
-    loopLeft(2000);
+    //loopLeft(2000);
 
     //loopRight(2000);
 
     //loopLeftRight(2000);
 
-    //loopX;
+    loopX (2000);
 
     return 1;
 }
