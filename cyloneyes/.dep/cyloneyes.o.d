@@ -1,1 +1,0 @@
-cyloneyes.o: cyloneyes.c

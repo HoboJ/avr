@@ -1,1 +1,0 @@
-cylontest.o: cylontest.c

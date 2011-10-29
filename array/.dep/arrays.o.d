@@ -1,1 +1,0 @@
-arrays.o: arrays.c
