@@ -1,1 +1,0 @@
-blinky.o: blinky.c

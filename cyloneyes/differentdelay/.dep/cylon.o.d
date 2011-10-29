@@ -1,1 +1,0 @@
-cylon.o: cylon.c
