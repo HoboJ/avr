@@ -79,7 +79,8 @@ void loopX (int delay)
         int right = 1;
         int i = 1;
         
-        while (left != 1 && right != 128) {
+        while (left != 1 && right != 128) 
+        {
             
             i = left + right;
 
@@ -97,11 +98,11 @@ void loopX (int delay)
                 i = left + right;
             }
             
-            left >>= 1;
-            right <<= 1;
-
             PORTD = i;
             _delay_ms(delay);
+
+            left >>= 1;
+            right <<= 1;
 
         }
 

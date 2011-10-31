@@ -1,18 +1,33 @@
 /* Trevor Hennessy
+ * 
+ * Test program to check if debounce works
  *
- * Program for counting via a push button
  */
 
 #include <avr/io.h>
 #include <util/delay.h>
 
-#include "ledLoops.h"
+#include "readSw.h"
 
 int main ( void )
 {
-
+    int switchPress;
+    int count = 0;
+    
     DDRD = 0xFF;
-    DDRB = 0x00;
 
+    while ( 1 )
+    {
 
+        _delay_ms ( 500 );
+        switchPress = readSw();
+
+        if ( switchPress == 1 )
+        {
+            count++;
+            PORTD = count;
+        }
+        
+    }
+    return 1;
 }
