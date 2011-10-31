@@ -1,5 +1,5 @@
 /* Trevor Hennessy
- * Function declarations for various types of LED blinking
+ * Function for various types of LED blinking
  */
 
 #define F_CPU 1000000UL
@@ -94,6 +94,20 @@ void loopX (int delay)
             while (left != 1 && right != 128) {
 
                 i = left + right;
+                
+                if (i == 24)
+                {
+                    PORTD = i;
+                    _delay_ms(delay);
+                    
+                    /* Required to ensure no noticeable delay when the two
+                     * LED's meet in the middle
+                     */
+
+                    left >>= 2;
+                    right <<= 2;
+                    i = left + right;
+                }
 
                 PORTD = i;
                 _delay_ms(delay);
