@@ -1,7 +1,7 @@
 /* Trevor Hennessy
  *
- * Function for detecting which switches have been pressed
- * using pointer arithmatic.
+ * Function for detecting which of eight switches have been engaged
+ * using pointers.
  */
 
 #include <avr/io.h>
@@ -15,6 +15,14 @@ void pSw ( int *switchPress )
     
     do
     {
+        /* PINB has to be inverted in order for us to see a 1
+         * on the appropriate bit. This is because the inputs
+         * pull down the pins when engaged with a switch.
+         *
+         * Alternatively PINB is normally high so any switch presses
+         * will show up as lows.
+         */
+
         readSw = ~PINB;
         
         int i = 0;
@@ -22,7 +30,7 @@ void pSw ( int *switchPress )
 
         /* Check to see if a specific bit has been turned on by a switch.
          * If a specific bit has been switched on make that bits position
-         * in the array a 1, otherwise it is a 0.
+         * in the array switchPress[] a 1, otherwise set it to a 0.
          */
 
         while ( i <= 7 )
@@ -37,8 +45,8 @@ void pSw ( int *switchPress )
 
         } 
 
-    _delay_ms ( 10 );
-    count++;
+        _delay_ms ( 10 );
+        count++;
     }
     while ( count <= 4 );
 
