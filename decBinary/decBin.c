@@ -15,7 +15,7 @@ void reverse ( int *binOut, const int i );
 int main ( int argc, char *argv[] )
 {
     /* Windows is picky on this bit. I have to use calloc over
-     * malloc to ensure all elements of the array are initialised
+     * malloc to ensure all elements of the arrays are initialised
      * to 0. Otherwise weird garbage shows up in random elements when 
      * compiled and ran on windows.
      */
