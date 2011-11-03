@@ -14,8 +14,13 @@ void reverse ( int *binOut, const int i );
 
 int main ( int argc, char *argv[] )
 {
-    char *in = malloc (sizeof(char) * MAX_STR_LEN);
-    int *binOut = malloc (sizeof(int) * MAX_INT_LEN);
+    /* Windows is picky on this bit. I have to use calloc over
+     * malloc to ensure all elements of the array are initialised
+     * to 0. Otherwise weird garbage shows up in random elements when 
+     * compiled and ran on windows.
+     */
+    char *in = calloc (MAX_STR_LEN, sizeof(char));
+    int *binOut = calloc (MAX_INT_LEN, sizeof(int));
 
     int input, dec, i = 0;
 
@@ -24,7 +29,7 @@ int main ( int argc, char *argv[] )
 
     /* Ensures string 'in' has been properly terminated */
     if (in[ strlen (in) - 1] == '\n')
-        in[ strlen (in) - 1] == '\0';
+        in[ strlen (in) - 1] = '\0';
 
     /* Convert string 'in' to an integer and assign it to input */
     input = atoi (in);
