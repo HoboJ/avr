@@ -10,7 +10,7 @@
 int readSw ( void )
 {
     int readSw, count = 0;
-    int switchPress;
+    int switchPress, stillPressed = 1;
 
     DDRB = 0x00;
 
