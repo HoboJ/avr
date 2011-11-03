@@ -20,7 +20,8 @@ void pSw ( int *switchPress )
          * pull down the pins when engaged with a switch.
          *
          * Alternatively PINB is normally high so any switch presses
-         * will show up as lows.
+         * will show up as lows. So inverting PINB is required if
+         * you expect a switch press to show up as a 1 in the code.
          */
 
         readSw = ~PINB;

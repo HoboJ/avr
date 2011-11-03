@@ -11,8 +11,7 @@
 
 int main ( void )
 {
-    int switchPress[] = { 0,0,0,0,0,0,0,0 };
-    //int count = 0;
+    int switchPress[] = { 0,0,0,0,0,0,0,0 }; //Array to pass onto the pSw() function.
     
     DDRD = 0xFF;
 
