@@ -70,7 +70,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = push
+TARGET = pushB
 
 
 # Object files directory
@@ -80,7 +80,7 @@ OBJDIR = .
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c pSw.c
+SRC = $(TARGET).c readSw.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
