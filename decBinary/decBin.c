@@ -22,7 +22,7 @@ int main ( int argc, char *argv[] )
     printf("Input a number \n");
     fgets (in, MAX_STR_LEN, stdin);
 
-    /* Ensures in has been properly terminated */
+    /* Ensures string 'in' has been properly terminated */
     if (in[ strlen (in) - 1] == '\n')
         in[ strlen (in) - 1] == '\0';
 
@@ -38,7 +38,7 @@ int main ( int argc, char *argv[] )
     } 
 
     /* Reverse binOut so that it will display correctly when printed
-     * with incremental int
+     * with incremental 
      */
     reverse ( binOut, i );
 
