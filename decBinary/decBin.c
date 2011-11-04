@@ -8,7 +8,7 @@
 #include <string.h>
 
 #define MAX_STR_LEN 80
-#define MAX_INT_LEN 24
+#define MAX_INT_LEN 80
 
 void reverse ( int *binOut, const int i );
 
@@ -29,7 +29,8 @@ int main ( int argc, char *argv[] )
 
     int input, dec, i = 0;
 
-    printf("Input a number \n");
+    /* Collect the decimal number for conversion */
+    printf("Input a decimal number: ");
     fgets (in, MAX_STR_LEN, stdin);
 
     /* Ensures string 'in' has been properly terminated */
@@ -39,6 +40,9 @@ int main ( int argc, char *argv[] )
     /* Convert string 'in' to an integer and assign it to input */
     input = atoi (in);
     
+    /* Convert the integer 'input' to binary and store the resulting
+     * 1 or 0 values in the array 'binOut'
+     */
     while ( input != 0 )
     {
         *(binOut + i ) = input % 2;
@@ -47,15 +51,20 @@ int main ( int argc, char *argv[] )
         input = input / 2;
     } 
 
-    /* Reverse binOut so that it will display correctly when printed
+    /* Reverse 'binOut' so that it will display correctly when printed
      * with increment 
      */
     reverse ( binOut, i );
+
+    /* Output the resulting binary number from the array 'binOut' */
+    printf("Binary Output: ");
 
     for ( int inc = 0; inc <= i; inc++ )
     {
         printf("%d", *( binOut + inc ) );
     }
+
+    printf(" \n");
 
     free(in);
     free(binOut);
