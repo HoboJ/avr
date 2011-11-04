@@ -14,13 +14,18 @@ void reverse ( int *binOut, const int i );
 
 int main ( int argc, char *argv[] )
 {
-    /* Windows is picky on this bit. I have to use calloc over
-     * malloc to ensure all elements of the arrays are initialised
-     * to 0. Otherwise weird garbage shows up in random elements when 
-     * compiled and ran on windows.
+    /* Declare my arrays for both the read string of numbers and
+     * the final array of binary integers. 
+     *
+     * Further note: memset is used to 0 the allocated memory
+     * before use to ensure no 'garbage' is present when we
+     * go to use the arrays.
      */
-    char *in = calloc (MAX_STR_LEN, sizeof(char));
-    int *binOut = calloc (MAX_INT_LEN, sizeof(int));
+    char *in = malloc ( sizeof(char) * MAX_STR_LEN );
+    memset ( in, 0, ( sizeof(char) * MAX_STR_LEN ) );
+
+    int *binOut = malloc ( sizeof(int) * MAX_INT_LEN );
+    memset ( binOut, 0, ( sizeof(int) * MAX_INT_LEN ) );
 
     int input, dec, i = 0;
 
@@ -43,7 +48,7 @@ int main ( int argc, char *argv[] )
     } 
 
     /* Reverse binOut so that it will display correctly when printed
-     * with incremental 
+     * with increment 
      */
     reverse ( binOut, i );
 
