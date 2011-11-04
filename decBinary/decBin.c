@@ -10,7 +10,8 @@
 #define MAX_STR_LEN 80
 #define MAX_INT_LEN 80
 
-void reverse ( int *binOut, const int i );
+void reverse ( int *binOut, const int len );
+int decToBin ( int *binOut, const char *in ); 
 
 int main ( int argc, char *argv[] )
 {
@@ -27,7 +28,7 @@ int main ( int argc, char *argv[] )
     int *binOut = malloc ( sizeof(int) * MAX_INT_LEN );
     memset ( binOut, 0, ( sizeof(int) * MAX_INT_LEN ) );
 
-    int input, dec, i = 0;
+    int len;
 
     /* Collect the decimal number for conversion */
     printf("Input a decimal number: ");
@@ -37,29 +38,18 @@ int main ( int argc, char *argv[] )
     if (in[ strlen (in) - 1] == '\n')
         in[ strlen (in) - 1] = '\0';
 
-    /* Convert string 'in' to an integer and assign it to input */
-    input = atoi (in);
-    
-    /* Convert the integer 'input' to binary and store the resulting
-     * 1 or 0 values in the array 'binOut'
-     */
-    while ( input != 0 )
-    {
-        *(binOut + i ) = input % 2;
-        i++;
-
-        input = input / 2;
-    } 
+    /* Call the decToBin function */
+    len = decToBin ( binOut, in );
 
     /* Reverse 'binOut' so that it will display correctly when printed
      * with increment 
      */
-    reverse ( binOut, i );
+    reverse ( binOut, len );
 
     /* Output the resulting binary number from the array 'binOut' */
     printf("Binary Output: ");
 
-    for ( int inc = 0; inc <= i; inc++ )
+    for ( int inc = 0; inc <= len; inc++ )
     {
         printf("%d", *( binOut + inc ) );
     }
@@ -76,11 +66,11 @@ int main ( int argc, char *argv[] )
 /* Function to reverse an array of integers
  */
 
-void reverse ( int *binOut, const int i )
+void reverse ( int *binOut, const int len )
 {
     int first, last; 
     int up = 0; 
-    int down = i;
+    int down = len;
 
     while ( up < down )
     {
@@ -95,4 +85,26 @@ void reverse ( int *binOut, const int i )
     }
 
     return;
+}
+
+/* Converts a string of numbers into an integer then
+ * converts the resulting integer into binary which
+ * gets placed into an array.
+ */
+
+int decToBin ( int *binOut, const char *in )
+{
+    int input, i = 0;
+
+    input = atoi ( in );
+
+    while ( input != 0 )
+    {
+        *( binOut + i ) = input % 2;
+        i++;
+
+        input = input / 2;
+    }
+
+    return i;
 }
