@@ -94,7 +94,8 @@ void reverse ( int *binOut, const int len )
 
 int decToBin ( int *binOut, const char *in )
 {
-    int input, i = 0;
+    int i = 0;
+    unsigned long input;
 
     input = atoi ( in );
 

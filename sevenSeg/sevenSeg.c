@@ -18,11 +18,14 @@ void ringCounter ( const int *wheel );
 int main ( void )
 {
     DDRD = 0xFF;
+    DDRB = 0xFF;
+
     int hexVals[] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xf8,0x80,0x98,0xA3,0x83,0xA7,0xA1,0x86,0x8E};
     int wheel[] = {0xFE,0xFD,0xFB,0xF7,0xEF,0xDF};
 
+    PORTB = 1;
     /* Sequence #1 */
-    //hexInc ( hexVals );
+    hexInc ( hexVals );
     
     /* Sequence #2 */
     //hexDec ( hexVals );
@@ -43,7 +46,7 @@ void hexInc ( const int *hexVals )
 
     while ( 1 )
     {
-        PORTD = *( hexVals + increment );
+        PORTD = ~*( hexVals + increment );
         _delay_ms(2000);
 
         increment ++;
