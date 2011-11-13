@@ -8,6 +8,8 @@
 #include <util/delay.h>
 #define F_CPU 1000000UL
 
+void reDraw ( int index1, int index2, int *hexVals );
+
 int main ( void )
 {
     DDRD = 0xFF;
@@ -17,24 +19,34 @@ int main ( void )
 
     while ( 1 )
     {
-        for ( int i = 15; i >= 0; i-- )
+        int j = 0;
+
+        for ( int i = 0; i <= 15; i++ )
         {
-            int count = 0;
+            j = i + 1;
 
-            while ( count <= 60 )
-            {
-                PORTB = 2;
-                PORTD = ~hexVals[i];
-                _delay_ms(8);
+            if ( j == 16 )
+                j = 0;
 
-                if ( i < 15 )
-                {
-                    PORTB = 1;
-                    PORTD = ~hexVals[i - 1];
-                    _delay_ms(8);
-                }
-                count++;
-            }
+            reDraw ( i, j, hexVals );
         }
+    }
+}
+
+void reDraw ( int index1, int index2, int *hexVals )
+{
+    int count = 0;
+
+    while ( count <= 100 )
+    {
+        PORTB = 1;
+        PORTD = ~*( hexVals + index1 );
+        _delay_ms(10);
+
+        PORTB = 2;
+        PORTD = ~*( hexVals + index2 );
+        _delay_ms(10);
+
+        count++;
     }
 }
