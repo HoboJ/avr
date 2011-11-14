@@ -70,7 +70,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = sequence1
+TARGET = sequences
 
 
 # Object files directory

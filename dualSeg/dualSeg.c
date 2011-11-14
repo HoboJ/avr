@@ -39,12 +39,12 @@ void reDraw ( int index1, int index2, int *hexVals )
 
     while ( count <= 100 )
     {
-        PORTB = 1;
-        PORTD = ~*( hexVals + index1 );
+        PORTD = 1;
+        PORTB = ~*( hexVals + index1 );
         _delay_ms(10);
 
-        PORTB = 2;
-        PORTD = ~*( hexVals + index2 );
+        PORTD = 2;
+        PORTB = ~*( hexVals + index2 );
         _delay_ms(10);
 
         count++;
