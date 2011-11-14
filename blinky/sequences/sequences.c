@@ -95,7 +95,7 @@ void seq3 ( const int *seq3 )
 
         count++;
 
-        if ( count == 9 )
+        if ( count == 8 )
         {
             count = 0;
         }
@@ -116,10 +116,9 @@ void seq4 ( const int *seq4 )
 
         count++;
 
-        if ( count == 8 )
+        if ( count == 7 )
         {
             count = 0;
-            _delay_ms(2000);
         }
     }
     return;
