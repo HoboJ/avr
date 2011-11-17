@@ -5,37 +5,48 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include <string.h>
 
 int main ( void )
 {
     DDRD = 0xFF;
     DDRB = 0xFF;
 
-    char stringMe[] = "BROADCAST ENGINEERING 2011";
+    char stringMe[] = "BROADCAST ENGINEERING 2011 ";
 
-    int i = 0;
+    int i = 0, j, k;
     char out = '\0';
 
-    while ( stringMe[i] )
+    while ( 1 )
     {
-        switch ( stringMe[i] )
+        i = 0;
+        while ( stringMe[i + k] )
         {
-            case '@'...'_':
-                out = stringMe[i] - 0x20;
-                break;
-            case ' '...'?':
-                out = stringMe[i] + 0x20;
-                break;
-        }
+            j = 3;
+            k = 0;
 
-        PORTD = out;
+            while ( j > -1 && stringMe[i + k] )
+            {
+                switch ( stringMe[i + k] )
+                {
+                    case '@'...'_':
+                        out = stringMe[i + k] - 0x20;
+                        break;
+                    case ' '...'?':
+                        out = stringMe[i + k] + 0x20;
+                        break;
+                }
 
-        PORTB = 0x00;
-        PORTB = 0xFF;
-                
-        i++; 
+                PORTD = out;
+
+                PORTB = 0x00 + j;
+                PORTB = 0xFF;
+ 
+                j--;
+                k++;
+            }
         _delay_ms(2000);
+        i++;
+        }
     }
     return 0;
 }
