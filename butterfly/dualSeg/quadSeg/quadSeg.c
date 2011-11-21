@@ -11,7 +11,7 @@ int main ( void )
     DDRD = 0xFF;
     DDRB = 0xFF;
 
-    char stringMe[] = "BROADCAST ENGINEERING 2011 ";
+    char stringMe[] = "broadcast engineering 2011 ";
 
     int i = 0, j, k;
     char out = '\0';
@@ -28,6 +28,9 @@ int main ( void )
             {
                 switch ( stringMe[i + k] )
                 {
+                    case 'a'...'z':
+                        out = stringMe[i + k] - 0x40;
+                        break;
                     case '@'...'_':
                         out = stringMe[i + k] - 0x20;
                         break;
