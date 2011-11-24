@@ -1,5 +1,7 @@
 /* Trevor Hennessy
  *
+ * sevenSeg.c
+ *
  * Program to output four separate sequences to a 7 segment display.
  *
  * Uncomment the function call of the sequence you want to see on the display
@@ -25,7 +27,7 @@ int main ( void )
 
     PORTB = 1;
     /* Sequence #1 */
-    hexInc ( hexVals );
+    //hexInc ( hexVals );
     
     /* Sequence #2 */
     //hexDec ( hexVals );
@@ -34,7 +36,7 @@ int main ( void )
     //ringClock ( wheel );
     
     /* Sequence #4 */
-    //ringCounter ( wheel );
+    ringCounter ( wheel );
 
     return 0;
 }
@@ -64,7 +66,7 @@ void hexDec ( const int *hexVals )
 
     while ( 1 )
     {
-        PORTD = *( hexVals + decrement );
+        PORTD = ~*( hexVals + decrement );
         _delay_ms(2000);
 
         decrement--;
@@ -82,7 +84,7 @@ void ringClock ( const int *wheel )
 
     while ( 1 )
     {
-        PORTD = *( wheel + inc );
+        PORTD = ~*( wheel + inc );
         _delay_ms(2000);
 
         inc++;
@@ -98,12 +100,12 @@ void ringCounter ( const int *wheel )
 {
     int dec = 5;
 
-    PORTD = *( wheel + 0 );
+    PORTD = ~*( wheel + 0 );
     _delay_ms(2000);
 
     while ( 1 )
     {
-        PORTD = *( wheel + dec );
+        PORTD = ~*( wheel + dec );
         _delay_ms(2000);
 
         dec--;

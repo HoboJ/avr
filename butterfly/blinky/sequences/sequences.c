@@ -1,5 +1,7 @@
 /* Trevor Hennessy
  *
+ * sequences.c
+ *
  * Display Sequences
  */
 
