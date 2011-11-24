@@ -1,6 +1,6 @@
 /* Trevor Hennessy
  *
- * sequences.c
+ * partFour.c
  *
  * Display Sequences
  */
