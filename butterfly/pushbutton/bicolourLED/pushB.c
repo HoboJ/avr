@@ -1,6 +1,8 @@
 /* Trevor Hennessy
  * 
  * Test program to check if debounce works
+ * 
+ * pushB.c
  *
  */
 
@@ -11,9 +13,11 @@
 
 int main ( void )
 {
-    int switchPress, count = 0, test;
+    int switchPress, count = 1, test;
     DDRD = 0xFF;
     DDRB = 0xF0;
+
+    PORTB = 64; //give the bicolour led an initial state
 
     while ( 1 )
     {
@@ -26,11 +30,9 @@ int main ( void )
 
             test = count % 8;
 
-            if ( test == 0 )
-            {
+            if ( test == 0 && PORTB == 128 )
                 PORTB = 64;
-            }
-            else
+            else if ( test == 0 && PORTB == 64 )
                 PORTB = 128;
 
             count ++;
