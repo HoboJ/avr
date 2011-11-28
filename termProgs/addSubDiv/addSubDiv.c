@@ -19,27 +19,40 @@ float divide ( int num1, int num2 );
 
 int main(int argc, char *argv[])
 {
-    char choice = malloc ( sizeof ( char ) * MAX_STR_LEN );
+    char *choice = malloc ( sizeof ( char ) * MAX_STR_LEN );
     memset ( choice, 0, ( sizeof ( char ) * MAX_STR_LEN ));
 
     int num1, num2;
+    float div;
+    int result;
 
     num1 = getNum ();
 
     num2 = getNum ();
 
-    printf("Choose what to do with the numbers input:");
-    printf("1. Add");
-    printf("2. Subtract");
-    printf("3. Multiply");
-    printf("4. Divide");
+    printf("Choose what to do with the numbers input: \n");
+    printf("Add \n");
+    printf("Subtract \n");
+    printf("Multiply \n");
+    printf("Divide \n\n");
 
     fgets ( choice, MAX_STR_LEN, stdin );
     
-    switch ( choice )
-    {
-        case '1':
+    if ( *choice == "Add" )
+        result = add ( num1, num2 );
+    else if ( *choice == "Subtract" )
+        result = subtract ( num1, num2 );
+    else if ( *choice == "Multiply" )
+        result = multiply ( num1, num2 );
+    else if ( *choice == "Divide" )
+        div = divide ( num1, num2 );
         
+
+    if ( *choice == "Divide" )
+        printf( "The result is, %f \n\n", div );
+    else
+        printf ( "The result is, %d \n\n", result );
+
 
     printf("Hit enter to quit");
     getchar();
@@ -56,11 +69,11 @@ int getNum ( void )
 
     int num;
 
-    printf("Input a number");
+    printf("Input a number ");
     fgets ( in, MAX_STR_LEN, stdin );
 
     if ( in [ strlen ( in ) - 1 ] == '\n' )
-        num1 [ strlen ( in ) - 1 ] = '\0';
+        in [ strlen ( in ) - 1 ] = '\0';
 
     num = atoi ( in );
 
