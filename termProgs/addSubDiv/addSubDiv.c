@@ -19,45 +19,57 @@ float divide ( int num1, int num2 );
 
 int main(int argc, char *argv[])
 {
-    char *choice = malloc ( sizeof ( char ) * MAX_STR_LEN );
-    memset ( choice, 0, ( sizeof ( char ) * MAX_STR_LEN ));
+    char choice;
 
     int num1, num2;
     float div;
     int result;
 
-    num1 = getNum ();
-
-    num2 = getNum ();
+    while ( 1 && choice != '5' )
+    {
 
     printf("Choose what to do with the numbers input: \n");
-    printf("Add \n");
-    printf("Subtract \n");
-    printf("Multiply \n");
-    printf("Divide \n\n");
+    printf("1. Add \n");
+    printf("2. Subtract \n");
+    printf("3. Multiply \n");
+    printf("4. Divide \n");
+    printf("5. Quit \n\n");
 
-    fgets ( choice, MAX_STR_LEN, stdin );
-    
-    if ( *choice == "Add" )
-        result = add ( num1, num2 );
-    else if ( *choice == "Subtract" )
-        result = subtract ( num1, num2 );
-    else if ( *choice == "Multiply" )
-        result = multiply ( num1, num2 );
-    else if ( *choice == "Divide" )
-        div = divide ( num1, num2 );
+    choice = getchar();
+
+    printf("\n\n");
+
+    if ( choice != '5' )
+    {
+        num1 = getNum ();
         
+        num2 = getNum ();
+    }
 
-    if ( *choice == "Divide" )
-        printf( "The result is, %f \n\n", div );
+    switch ( choice )
+    {
+        case '1':
+            result = add ( num1, num2 );
+            break;
+        case '2':
+            result = subtract ( num1, num2 );
+            break;
+        case '3':
+            result = multiply ( num1, num2 );
+            break;
+        case '4':
+            div = divide ( num1, num2 );
+            break;
+    }
+
+    if ( choice == '4' )
+        printf ( "The result is, %f \n\n", div );
+    else if ( choice == '5' )
+        printf ( "Goodbye.\n\n" );
     else
         printf ( "The result is, %d \n\n", result );
 
-
-    printf("Hit enter to quit");
-    getchar();
-
-    free ( choice );
+    }
 
     return 0;
 }

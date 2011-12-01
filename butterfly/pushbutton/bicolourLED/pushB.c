@@ -1,6 +1,6 @@
 /* Trevor Hennessy
  * 
- * Test program to check if debounce works
+ * Pushbutton counter using modulus 8 to change the state of the bicolourLED
  * 
  * pushB.c
  *

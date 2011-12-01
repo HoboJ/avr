@@ -2,7 +2,7 @@
  *
  * sequences.c
  *
- * Display Sequences
+ * Display one of four LED Sequences
  */
 
 #include <avr/io.h>
