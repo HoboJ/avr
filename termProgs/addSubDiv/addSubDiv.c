@@ -2,14 +2,14 @@
  * 
  * T. Hennessy
  *
- * Description:
+ * Description: 
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_STR_LEN 40
+#define MAX_STR_LEN 20
 
 int getNum ( void );
 int add ( int num1, int num2 );
@@ -20,10 +20,9 @@ float divide ( int num1, int num2 );
 int main(int argc, char *argv[])
 {
     char choice;
-
     int num1, num2;
     float div;
-    int result;
+    int result, dummyRead;
 
     while ( 1 && choice != '5' )
     {
@@ -37,12 +36,11 @@ int main(int argc, char *argv[])
 
     choice = getchar();
 
-    printf("\n\n");
+    dummyRead = getchar();
 
     if ( choice != '5' )
     {
         num1 = getNum ();
-        
         num2 = getNum ();
     }
 
@@ -63,7 +61,7 @@ int main(int argc, char *argv[])
     }
 
     if ( choice == '4' )
-        printf ( "The result is, %f \n\n", div );
+        printf ( "\n\nThe result is, %f \n\n", div );
     else if ( choice == '5' )
         printf ( "Goodbye.\n\n" );
     else
@@ -76,12 +74,17 @@ int main(int argc, char *argv[])
 
 int getNum ( void )
 {
-    char *in = malloc ( sizeof ( char ) * MAX_STR_LEN );
-    memset ( in, 0, ( sizeof ( char ) * MAX_STR_LEN ));
+    char *in;
+    in = malloc ( sizeof ( *in ) * MAX_STR_LEN );
+    
+    if ( in == NULL )
+        printf("Error memory could not be allocated for input");
+
+    memset ( in, 0, ( sizeof ( *in ) * MAX_STR_LEN ));
 
     int num;
 
-    printf("Input a number ");
+    printf("\nInput a number ");
     fgets ( in, MAX_STR_LEN, stdin );
 
     if ( in [ strlen ( in ) - 1 ] == '\n' )
