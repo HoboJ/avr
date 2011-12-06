@@ -10,107 +10,145 @@
 #include <string.h>
 
 #define MAX_STR_LEN 20
+#define ERR "h\n"
 
-int getNum ( void );
-int add ( int num1, int num2 );
-int subtract ( int num1, int num2 );
-int multiply ( int num1, int num2 );
-float divide ( int num1, int num2 );
+char *getOpt ( int index, char *argv[] );
+int add ( int *num, int argc );
+int subtract ( int *num, int argc );
+int multiply ( int *num, int argc );
+float divide ( int *num, int argc );
+void printHelp ( char *argv[] );
 
 int main (int argc, char *argv[])
 {
-    char choice;
-    int num1 = 2, num2 = 2, i = 0;
+    char *choice;
+    int nums[8], i, j = 0, numArgs;
     float div;
     int result;
 
     if ( argc < 2 )
-        printf ( "usage: %s requires args\n", argv[0] );
+    {
+        printf ( "%s: missing operand\n", argv[0] );
+        printf ( "Try '%s -h' for more information.\n", argv[0] );
+        choice = &ERR;
+    }
     else
     {
-        
+            choice = getOpt ( 1, argv );
+
+            switch ( *choice )
+            {
+                case 'a':
+                case 's':
+                case 'd':
+                case 'm':
+                    for ( i = 2; i != argc; i++ )
+                    {
+                        *( nums + j ) = atoi ( *( argv + i ) );
+                        j++;
+                    }
+                    break;
+            }
+
+            numArgs = argc - 2;
+
+            switch ( *choice )
+            {
+                case 'a':
+                    result = add ( nums, numArgs );
+                    break;
+                case 's':
+                    result = subtract ( nums, numArgs );
+                    break;
+                case 'd':
+                    div = divide ( nums, numArgs );
+                    break;
+                case 'm':
+                    result = multiply ( nums, numArgs );
+                    break;
+                case 'h':
+                    printHelp ( argv );
+                    break;
+            }
     }
 
-    //choice = getchar();
-
-    //num1 = getNum ();
-    //num2 = getNum ();
-
-    switch ( choice )
-    {
-        case 'a':
-            result = add ( num1, num2 );
-            break;
-        case 's':
-            result = subtract ( num1, num2 );
-            break;
-        case 'm':
-            result = multiply ( num1, num2 );
-            break;
-        case 'd':
-            div = divide ( num1, num2 );
-            break;
-    }
-
-    if ( choice == '4' )
-        printf ( "\n\nThe result is, %f \n\n", div );
-    else if ( choice == '5' )
-        printf ( "Goodbye.\n\n" );
+    if ( *choice == 'd' )
+        printf ( "The result is, %f \n\n", div );
+    else if ( *choice == 'h' )
+        ;
     else
         printf ( "The result is, %d \n\n", result );
 
     return 0;
 }
 
-int getNum ( void )
+char *getOpt ( int index, char *argv[] )
 {
-    char *in;
-    in = malloc ( sizeof ( *in ) * MAX_STR_LEN );
+    char *opt;
     
-    if ( in == NULL )
-        printf("Error memory could not be allocated for input");
+    opt = strtok ( argv[index], "-" );
 
-    memset ( in, 0, ( sizeof ( *in ) * MAX_STR_LEN ));
-
-    int num;
-
-    printf("\nInput a number ");
-    fgets ( in, MAX_STR_LEN, stdin );
-
-    if ( in [ strlen ( in ) - 1 ] == '\n' )
-        in [ strlen ( in ) - 1 ] = '\0';
-
-    num = atoi ( in );
-
-    free ( in );
-
-    return num;
+    if ( opt == NULL )
+    {
+        printf ( "ERROR: INVALID ARGUMENT\n" );
+        printf ( "Try '%s -h' for more information.", argv[0] );
+        return NULL;
+    }
+    else
+    {
+        return opt;
+    }
 }
 
-int add ( int num1, int num2 )
+int add ( int *num, int argc )
 {
-    int result = num1 + num2;
+    int result = 0;
+    
+    for ( int i = 0; i < argc; i++ )
+    {
+        result = result + *(num + i);
+    }
 
     return result;
 }
 
-int subtract ( int num1, int num2 )
+int subtract ( int *num, int argc )
 {
-    int result = num1 - num2;
+    int result = *( num + 0 );
+
+    for ( int i = 1; i < argc; i++ )
+        result = result - *( num + i );
 
     return result;
 }
 
-int multiply ( int num1, int num2 )
+int multiply ( int *num, int argc )
 {
-    int result = num1 * num2;
+    int result = *( num + 0 );
+    
+    for ( int i = 1; i < argc; i++ )
+        result = result * *( num + i );
 
     return result;
 }
 
-float divide ( int num1, int num2 )
+float divide ( int *num, int argc )
 {
-    float result = (float) num1 / (float) num2;
+    float result = (float) *( num + 0 );
+    
+    for ( int i = 1; i < argc; i++ )
+        result = result / (float) *( num + i );
 
     return result;
+}
+
+void printHelp ( char *argv[] )
+{
+    printf ( "-h : Print this help message\n" );
+    printf ( "-a : add two numbers together\n" );
+    printf ( "-s : subtract two numbers\n" );
+    printf ( "-m : multiply two numbers\n" );
+    printf ( "-d : divide two numbers\n\n" );
+    printf ( " ie. work -a 5 2 7 4\n\n" );
+    printf ( "Maximum # of args is 8" );
 }
