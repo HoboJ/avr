@@ -73,11 +73,11 @@ int main (int argc, char *argv[])
     }
 
     if ( *choice == 'd' )
-        printf ( "The result is, %f \n\n", div );
+        printf ( "The result is, %f \n", div );
     else if ( *choice == 'h' )
         ;
     else
-        printf ( "The result is, %d \n\n", result );
+        printf ( "The result is, %d \n", result );
 
     return 0;
 }
