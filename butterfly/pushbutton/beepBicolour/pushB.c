@@ -9,6 +9,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <compat/deprecated.h>
 
 #include "readSw.h"
 
@@ -33,10 +34,30 @@ int main ( void )
 
             if ( test == 0 && PORTB == 128 )
             {
+                for ( int i = 10; i > 0; i-- )
+                {
+                    sbi(PORTB, 5);
+
+                    _delay_ms(20);
+
+                    cbi(PORTB, 5);
+
+                    _delay_ms(20);
+                }
                 PORTB = 64;
             }
             else if ( test == 0 && PORTB == 64 )
             {
+                for ( int i = 10; i > 0; i-- )
+                {
+                    sbi(PORTB, 5);
+
+                    _delay_ms(20);
+
+                    cbi(PORTB, 5);
+
+                    _delay_ms(20);
+                }
                 PORTB = 128;
             }
 
