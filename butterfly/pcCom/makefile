@@ -70,7 +70,7 @@ FORMAT = ihex
 
 
 # Target file name (without extension).
-TARGET = PC_Comm
+TARGET = comm
 
 
 # Object files directory
@@ -80,7 +80,7 @@ OBJDIR = .
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c Demonstrator.c
+SRC = $(TARGET).c demo.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)

@@ -5,12 +5,14 @@
 #define F_CPU 1000000UL
 #include <util/delay.h>
 #include <compat/deprecated.h>
-
+#include <string.h>
 
 #include <stdlib.h>
 #include <avr/pgmspace.h>
 
-#include "Demonstrator.h"
+#include "demo.h"
+
+#define MAX_STR_LEN 64
 
 void OSCCAL_calibration(void) ;
 
@@ -21,6 +23,3 @@ void sendChar(char ) ;
 void sendString(char *);
 
 void sendFString(const char *);
-
-
-

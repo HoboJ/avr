@@ -1,42 +1,50 @@
-// PC_Comm.c
+// comm.c
 
-#include "Demonstrator.h"
-#include "PC_Comm.h"
+#include "comm.h"
+#include "demo.h"
 
 
 int main(void)
 {
-	char string[64];
+	char *string = malloc ( sizeof(*string) * MAX_STR_LEN );
+    memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+
 	unsigned char count = 0;
 	
 	// run the initialization routines
 	initializer();
 
-   	 //Begin forever chatting with the PC
-	 for(;;) 
-	 {	
+   	//Begin forever chatting with the PC
+    while( 1 )
+	{	
 		// Check to see if a character is waiting
 		if( isCharAvailable() == 1 )
 		{
 			// If a new character is received, get it
-			string[count++] = receiveChar();
-			
-			// receive a packet up to 64 bytes long
-			if(string[count-1] == '\n')// Hyperterminal string ends with \r\n
+            *( string + count ) = receiveChar();
+
+			// receive a packe up to 64 bytes long
+			if( *( string + count ) == '\n')// Hyperterminal string ends with \r\n
 			{	
-				string[count-2] = '\0'; //convert to a string
 				parseInput(string);
-				string[0] = '\0';
 				count = 0;
+
+                memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
 			}
-			else if(count > 64)
+			else if ( count > 64 )
 			{
 				count = 0;
-				string[0] = '\0';
+                
+                memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+
 				sendString("Error - received > 64 characters");			
 			}		
+            
+            count++;
 		}
     }
+
+    free ( string );
 	return 0;
 }
 
@@ -45,8 +53,10 @@ char isCharAvailable()
 {	
 	// Does the RX0 bit of the USART Status and Control Register
 	// indicate a char has been received?
-	if ( (UCSRA & (0x80)) ) return 1;
-	else return 0;
+	if ( (UCSRA & (0x80)) ) 
+        return 1;
+	else 
+        return 0;
 }
 
 char receiveChar()
@@ -78,14 +88,20 @@ void sendChar(char data)
 	UCSRA=UCSRA|0x40;          
 }
 
-void sendString(char s[])
+void sendString(char *s)
 {
 	int i = 0;
 	
 	while(i < 64) // don't get stuck if it is a bad string
 	{
-		if( s[i] == '\0' ) break; // quit on string terminator
-		sendChar(s[i++]);
+		if( *( s + i ) == '\n' ) 
+        {
+            sendChar('\n');
+            break; // quit on string terminator
+        }
+
+        sendChar ( *( s + i ) );
+        i++;
 	}
 }
 
@@ -105,7 +121,7 @@ void sendFString(const char *pFlashStr)
 }
 
 
-void USARTinit()
+void USARTinit( void )
 {
     // Increase the oscillator to 2 Mhz for the 19200 baudrate:  
     CLKPR = (1<<CLKPCE);        // set Clock Prescaler Change Enable
@@ -207,4 +223,3 @@ void OSCCAL_calibration(void)
         TCCR1B = (1<<CS10); // start timer1
     }
 }
-
