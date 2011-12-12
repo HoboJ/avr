@@ -1,5 +1,5 @@
 // Demonstrator.h CommDemo version
 
-void initializer(void);
+void initializer ( void );
 
-void parseInput(char *);
+void parseInput ( char *s );
