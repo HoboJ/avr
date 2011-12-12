@@ -2,7 +2,7 @@
  *
  * Trevor Hennessy
  *
- * Description:
+ * Description: displays one of three sequences based upon which way you hit the joystick
  */
 
 #include <avr/io.h>
