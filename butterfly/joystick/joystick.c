@@ -21,6 +21,8 @@
 void up ( void );
 void down ( void );
 void pDown ( void );
+void left ( void );
+void right ( void );
 
 void JoyInit ( void )
 {
@@ -39,6 +41,8 @@ char JoyGet ( void )
 
 int main ( void )
 {
+    DIDR0 = 0;
+    DIDR1 = 0;
     unsigned char test;
 
     DDRD = 0xFF;
@@ -54,35 +58,39 @@ int main ( void )
         test = JoyGet ();
 
         if ( (test & 128) == 128 )
-            up ();
-        else if ( (test & 64) == 64 )
             down ();
+        else if ( (test & 64) == 64 )
+            up ();
         else if ( (test & 16) == 16 )
             pDown ();
+        else if ( (test & 8) == 8 )
+            right ();
+        else if ( (test & 4) == 4 )
+            left ();
     }
 
     return 0;
 }
 
-void up ( void )
+void down ( void )
 {
-    int up [] = {161, 171};
+    int down [] = {161, 171};
 
     for ( int i = 0; i < 2; i++ )
     {
-        PORTD = *( up + i );
+        PORTD = *( down + i );
         _delay_ms ( 2000 );
     }
     PORTD = 255;
 }
 
-void down ( void )
+void up ( void )
 {
-    int down [] = {227, 140};
+    int up [] = {227, 140};
 
     for ( int i = 0; i < 2; i++ )
     {
-        PORTD = *( down + i );
+        PORTD = *( up + i );
         _delay_ms ( 2000 );
     }
     PORTD = 255;
@@ -97,5 +105,23 @@ void pDown ( void )
         PORTD = *( pDown + i );
         _delay_ms ( 2000 );
     }
+    PORTD = 255;
+}
+
+void left ( void )
+{
+    int left = 199;
+
+    PORTD = left;
+    _delay_ms ( 2000 );
+    PORTD = 255;
+}
+
+void right ( void )
+{
+    int right = 175;
+    
+    PORTD = right;
+    _delay_ms ( 2000 );
     PORTD = 255;
 }

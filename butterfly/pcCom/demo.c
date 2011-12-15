@@ -45,7 +45,7 @@ void parseInput ( char *s )
     {
         DDRB = 0xFF;
 
-        for ( unsigned char i = 100; i > 0; i-- )
+        for ( unsigned char i = 500; i > 0; i-- )
         {
             sbi ( PORTB, 5 );
             _delay_ms ( 1 );
