@@ -32,6 +32,7 @@ void parseInput ( char *s )
         sendString ( "light\n" );
         sendString ( "beep\n" );
         sendString ( "seq\n" );
+        sendString ( "bret\n" );
     }
     else if ( ( strncmp ( "light\n", s, 6 ) ) == 0 )
     {
@@ -64,6 +65,10 @@ void parseInput ( char *s )
         }
         
         PORTD = 0;
+    }
+    else if ( ( strncmp ( "bret\n", s, 6 ) ) == 0 )
+    {
+        sendString ( "Broadcast Engineering Year 2 Microcontroller, Trevor\n" );
     }
     else
         sendString ( "Invalid command try, help\n" );
