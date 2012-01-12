@@ -1,4 +1,7 @@
-// comm.c
+/* comm.c
+ *
+ * Trevor Hennessy
+ */
 
 #include "comm.h"
 #include "demo.h"
@@ -26,8 +29,13 @@ int main ( void )
 			// receive a packe up to 64 bytes long
 			if ( *( string + count ) == '\n' || *( string + count ) == '\r' )
 			{	
-				parseInput ( string );
-				count = 0;
+                parseInput ( string );
+                count = 0;
+                
+                while ( isCharAvailable() == 1 )
+                {
+                    *( string + count ) = receiveChar();
+                }
 
                 memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
 			}
@@ -103,10 +111,7 @@ void sendString ( char *s )
         sendChar ( *( s + i ) );
 
         if ( *( s + i ) == '\n' )
-        {
-            sendChar ( '\r' );
             break;
-        }
         else if ( *( s + i ) == '\r' )
             break;
 

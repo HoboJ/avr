@@ -1,4 +1,7 @@
-// demon.c CommDemo version
+/* demon.c
+ * 
+ * Trevor Hennessy
+ */
 
 #include "comm.h"
 
@@ -10,39 +13,39 @@ void initializer ( void )
 	USARTinit ();
 	
 	// say hello
-	sendString ( "PC_Comm.c ready to communicate.\n" );   	 
+	sendString ( "PC_Comm.c ready to communicate.\r" );   	 
 	// identify yourself specifically
-	sendString ( "You are talking to the PC_Comm demo.\n" );
+	sendString ( "You are talking to the PC_Comm demo.\r" );
 }
 
 void parseInput ( char *s )
 {
     if ( *( s + 0 ) == '\0' )
         s = &*( s + 1 );
-
+    
     DDRD = 0xFF;
 
     unsigned char seq[] = {129,66,36,24,36,66,129};
 
-    if ( ( strncmp ( "help\n", s, 6 ) ) == 0 )
+    if ( ( strncmp ( "help", s, 4 ) ) == 0 )
     {
-        sendChar ( '\n' );
-        sendString ( "List of commands:\n" );
-        sendChar ( '\n' );
-        sendString ( "light\n" );
-        sendString ( "beep\n" );
-        sendString ( "seq\n" );
-        sendString ( "bret\n" );
+        sendChar ( '\r' );
+        sendString ( "List of commands:\r" );
+        sendChar ( '\r' );
+        sendString ( "light\r" );
+        sendString ( "beep\r" );
+        sendString ( "seq\r" );
+        sendString ( "bret\r" );
     }
-    else if ( ( strncmp ( "light\n", s, 6 ) ) == 0 )
+    else if ( ( strncmp ( "light", s, 5 ) ) == 0 )
     {
-        sendString ( "Turning on leds for approx 2 seconds\n" );
+        sendString ( "Turning on leds for approx 2 seconds\r" );
 
         PORTD = 0xFF;
         _delay_ms(4000);
         PORTD = 0x00;
     }
-    else if ( ( strncmp ( "beep\n", s, 6 ) ) == 0 )
+    else if ( ( strncmp ( "beep", s, 4 ) ) == 0 )
     {
         DDRB = 0xFF;
 
@@ -54,9 +57,9 @@ void parseInput ( char *s )
             _delay_ms ( 1 );
         }
     }
-    else if ( ( strncmp ( "seq\n", s, 5 ) ) == 0 )
+    else if ( ( strncmp ( "seq", s, 3 ) ) == 0 )
     {
-        sendString ( "Rotating leds on PORTD\n" );
+        sendString ( "Rotating leds on PORTD\r" );
 
         for ( unsigned char i = 0; i < 7; i++ )
         {
@@ -66,10 +69,10 @@ void parseInput ( char *s )
         
         PORTD = 0;
     }
-    else if ( ( strncmp ( "bret\n", s, 6 ) ) == 0 )
+    else if ( ( strncmp ( "bret", s, 4 ) ) == 0 )
     {
-        sendString ( "Broadcast Engineering Year 2 Microcontroller, Trevor\n" );
+        sendString ( "Broadcast Engineering Year 2 Microcontroller, Trevor\r" );
     }
     else
-        sendString ( "Invalid command try, help\n" );
+        sendString ( "Invalid command try, help\r" );
 }
