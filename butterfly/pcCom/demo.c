@@ -80,4 +80,6 @@ void parseInput ( char *s )
     }
     else
         sendString ( "Invalid command try, help\r" );
+
+    free ( temp );
 }
