@@ -1,4 +1,4 @@
-/* demon.c
+/* demo.c
  * 
  * Trevor Hennessy
  */
@@ -22,56 +22,61 @@ void parseInput ( char *s )
 {
     if ( *( s + 0 ) == '\0' )
         s = &*( s + 1 );
-    
-    DDRD = 0xFF;
+    int num = 0, i = 0, *ptr;
+    char *temp = malloc ( sizeof(*temp) * 8 );
+    memset ( temp, 0, ( sizeof(*temp) * 8 ) );
 
-    unsigned char seq[] = {129,66,36,24,36,66,129};
+    DDRD = 0xFF;
 
     if ( ( strncmp ( "help", s, 4 ) ) == 0 )
     {
         sendChar ( '\r' );
         sendString ( "List of commands:\r" );
         sendChar ( '\r' );
-        sendString ( "light\r" );
-        sendString ( "beep\r" );
-        sendString ( "seq\r" );
-        sendString ( "bret\r" );
+        sendString ( "comma - add 10\r" );
+        sendString ( "commb - sub 20\r" );
+        sendString ( "commc - mult 2\r" );
+        sendString ( "commd - div 2\r" );
     }
-    else if ( ( strncmp ( "light", s, 5 ) ) == 0 )
+    else if ( ( strncmp ( "comm", s, 4 ) ) == 0 )
     {
-        sendString ( "Turning on leds for approx 2 seconds\r" );
-
-        PORTD = 0xFF;
-        _delay_ms(4000);
-        PORTD = 0x00;
-    }
-    else if ( ( strncmp ( "beep", s, 4 ) ) == 0 )
-    {
-        DDRB = 0xFF;
-
-        for ( unsigned char i = 500; i > 0; i-- )
+        ptr = &*( s + 5 );
+        while ( 1 )
         {
-            sbi ( PORTB, 5 );
-            _delay_ms ( 1 );
-            cbi ( PORTB, 5 );
-            _delay_ms ( 1 );
+            if ( *( s + i ) == '\n' )
+            {
+                *( s + i ) == '\0';
+                break;
+            }
+            else if ( *( s + i ) == '\r' )
+            {
+                *( s + i ) == '\0';
+                break;
+            }
+            i++;
         }
-    }
-    else if ( ( strncmp ( "seq", s, 3 ) ) == 0 )
-    {
-        sendString ( "Rotating leds on PORTD\r" );
 
-        for ( unsigned char i = 0; i < 7; i++ )
+        num = atoi ( ptr );
+
+        switch ( *( s + 4 ) )
         {
-            PORTD = *( seq + i );
-            _delay_ms ( 1000 );
+            case 'a':
+                num = num + 10;
+                break;
+            case 'b':
+                num = num - 20;
+                break;
+            case 'c':
+                num = num * 2;
+                break;
+            case 'd':
+                num = num / 2;
+                break;
+            default:
+                sendString ( "You done goofed\r" );
         }
-        
-        PORTD = 0;
-    }
-    else if ( ( strncmp ( "bret", s, 4 ) ) == 0 )
-    {
-        sendString ( "Broadcast Engineering Year 2 Microcontroller, Trevor\r" );
+
+        PORTD = num;
     }
     else
         sendString ( "Invalid command try, help\r" );

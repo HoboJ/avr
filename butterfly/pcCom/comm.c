@@ -114,6 +114,8 @@ void sendString ( char *s )
             break;
         else if ( *( s + i ) == '\r' )
             break;
+        else if ( *( s + i ) == '\0' )
+            break;
 
         i++;
 	}
