@@ -22,8 +22,8 @@ void parseInput ( char *s )
 {
     if ( *( s + 0 ) == '\0' )
         s = &*( s + 1 );
-    int num = 0, i = 0, *ptr;
-    char *temp = malloc ( sizeof(*temp) * 8 );
+    int num = 0, i = 0;
+    char *ptr, *temp = malloc ( sizeof(*temp) * 8 );
     memset ( temp, 0, ( sizeof(*temp) * 8 ) );
 
     DDRD = 0xFF;
@@ -45,12 +45,12 @@ void parseInput ( char *s )
         {
             if ( *( s + i ) == '\n' )
             {
-                *( s + i ) == '\0';
+                *( s + i ) = '\0';
                 break;
             }
             else if ( *( s + i ) == '\r' )
             {
-                *( s + i ) == '\0';
+                *( s + i ) = '\0';
                 break;
             }
             i++;
