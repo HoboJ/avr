@@ -11,51 +11,68 @@ int main ( void )
 {
 	char *string = malloc ( sizeof(*string) * MAX_STR_LEN );
     memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+    unsigned char *flag = 0;
 
-	unsigned char count = 0;
-	
 	// run the initialization routines
 	initializer();
 
    	//Begin forever chatting with the PC
     while ( 1 )
-	{	
-		// Check to see if a character is waiting
-		if ( isCharAvailable() == 1 )
-		{
-			// If a new character is received, get it
-            *( string + count ) = receiveChar();
+    {
+        getString ( string, flag );
 
-			// receive a packe up to 64 bytes long
-			if ( *( string + count ) == '\n' || *( string + count ) == '\r' )
-			{	
-                parseInput ( string );
-                count = 0;
-                
-                while ( isCharAvailable() == 1 )
-                {
-                    *( string + count ) = receiveChar();
-                }
+        parseInput ( string );
 
-                memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
-			}
-			else if ( count > 64 )
-			{
-				count = 0;
-                
-                memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
-
-				sendString ( "Error - received > 64 characters\n" );			
-			}		
-            
-            count++;
-		}
+        memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
     }
 
     free ( string );
 	return 0;
 }
 
+
+void getString ( char *string, unsigned char *flag )
+{
+    unsigned char count = 0;
+
+    while ( 1 )
+    {
+        if ( isCharAvailable() == 1 )
+        {
+            *( string + count ) = receiveChar ();
+
+            if ( *( string + count ) == '\r' || *( string + count ) == '\n' )
+                break;
+            else if ( count > 24 )
+            {
+                sendString ( "Error - received > 24 characters \r" );
+                break;
+            }
+
+            count++;
+        }
+    }
+}
+/*
+void getString ( char *string, unsigned int *count )
+{
+    *( string + *count ) = receiveChar ();
+
+    if ( *( string + *count ) == '\r' || *( string + *count ) == '\n' )
+    {
+        sendString ( "derp\r" );
+        *count = 99;
+        return; 
+    }
+    else if ( *count == 24 )
+    {
+        sendString ( "Error - received > 24 characters \r" );
+        *count = 0;
+        return;
+    }
+    else if ( isCharAvailable() == 1 )
+         return getString ( string, count + 1 );
+}*/
 
 char isCharAvailable ( void )
 {	
@@ -104,9 +121,8 @@ void sendString ( char *s )
 	
     if ( *( s + i ) == '\0' )
         s = &*( s + 1 );
-   
 
-	while ( i < 64 ) // don't get stuck if it is a bad string
+	while ( i < 24 ) // don't get stuck if it is a bad string
 	{
         sendChar ( *( s + i ) );
 

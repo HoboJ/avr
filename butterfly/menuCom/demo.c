@@ -17,6 +17,11 @@ void initializer ( void )
 	// identify yourself specifically
 	//sendString ( "You are talking to the PC_Comm demo.\r" );
 
+    menu ();
+}
+
+void menu ( void )
+{
     sendChar ( '\r' );
     sendString ( "Menu\r" );
     sendString ( "a. Add\r" );
@@ -30,6 +35,7 @@ void parseInput ( char *s )
 {
     if ( *( s + 0 ) == '\0' )
         s = &*( s + 1 );
+
     int num = 0, i = 0;
     char *ptr, *temp = malloc ( sizeof(*temp) * 8 );
     memset ( temp, 0, ( sizeof(*temp) * 8 ) );
@@ -72,7 +78,7 @@ void parseInput ( char *s )
                     num = num * 2;
                     break;
                 case 'd':
-                    num = ( float ) num / 2;
+                    num = num / 2;
                     break;
             }
             
@@ -91,13 +97,5 @@ void parseInput ( char *s )
             break;
     }
     
-    sendChar ( '\r' );
-    sendString ( "Menu\r" );
-    sendString ( "a. Add\r" );
-    sendString ( "b. Sub\r" );
-    sendString ( "c. Mult\r" );
-    sendString ( "d. Div\r" );
-    sendChar ( '\r' );
-
     free ( temp );
 }

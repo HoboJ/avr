@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
 
     while ( 1 && choice != 'e' )
     {
-
         printf("Choose what to do with the numbers input: \n");
         printf("a. Add \n");
         printf("b. Subtract \n");
@@ -38,25 +37,32 @@ int main(int argc, char *argv[])
 
         dummyRead = getchar();
 
-        if ( choice != 'e' )
-        {
-            num1 = getNum ();
-            num2 = getNum ();
-        }
-
         switch ( choice )
         {
             case 'a':
+                num1 = getNum ();
+                num2 = getNum ();
                 result = add ( num1, num2 );
                 break;
             case 'b':
+                num1 = getNum ();
+                num2 = getNum ();
                 result = subtract ( num1, num2 );
                 break;
             case 'c':
+                num1 = getNum ();
+                num2 = getNum ();
                 result = multiply ( num1, num2 );
                 break;
             case 'd':
+                num1 = getNum ();
+                num2 = getNum ();
                 div = divide ( num1, num2 );
+                break;
+            case 'e':
+                break;
+            default:
+                printf ( "Error: Bad choice. \7\n" );
                 break;
         }
 
@@ -65,7 +71,17 @@ int main(int argc, char *argv[])
         else if ( choice == 'e' )
             printf ( "Goodbye.\n\n" );
         else
-            printf ( "The result is, %d \n\n", result );
+        {
+            switch ( choice )
+            {
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                    printf ( "The result is, %d \n\n", result );
+                    break;
+            }
+        }    
 
     }
 
@@ -86,7 +102,7 @@ int getNum ( void )
 
     int num;
 
-    printf("\nInput a number ");
+    printf("Input a number \n\n");
     fgets ( in, MAX_STR_LEN, stdin );
 
     if ( in [ strlen ( in ) - 1 ] == '\n' )

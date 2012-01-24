@@ -23,4 +23,4 @@ void sendString ( char *s );
 
 void sendFString ( const char *s );
 
-void getString ( char *string );
+void getString ( char *string, unsigned char *flag );
