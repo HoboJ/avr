@@ -2,7 +2,9 @@
  * 
  * T. Hennessy
  *
- * Description: 
+ * Description: Program presents a menu asking what the user wants to do
+ * then performs whatever the user chooses to do. Also it beeps on an 
+ * incorrect menu choice.
  */
 
 #include <stdio.h>
