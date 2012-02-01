@@ -37,7 +37,7 @@ void parseInput ( char *s )
     if ( *( s + 0 ) == '\0' )
         s = &*( s + 1 );
 
-    int num1, num2;
+    long num1, num2;
     unsigned char i = 0;
     char *ptr, *temp = malloc ( sizeof(*temp) * 18 );
     memset ( temp, 0, ( sizeof(*temp) * 18 ) );
@@ -47,38 +47,38 @@ void parseInput ( char *s )
         case 'a':
             num1 = getNum ();
             num2 = getNum ();
-            ptr = itoa ( (num1 + num2), temp, 10 );
+            ptr = ltoa ( (num1 + num2), temp, 10 );
             break;
         case 'b':
             num1 = getNum ();
             num2 = getNum ();
-            ptr = itoa ( (num1 - num2), temp, 10 );
+            ptr = ltoa ( (num1 - num2), temp, 10 );
             break;
         case 'c':
             num1 = getNum ();
             num2 = getNum ();
-            ptr = itoa ( (num1 * num2), temp, 10 );
+            ptr = ltoa ( (num1 * num2), temp, 10 );
             break;
         case 'd':
             num1 = getNum ();
             num2 = getNum ();
-            ptr = itoa ( (num1 / num2), temp, 10 );
+            ptr = ltoa ( (num1 / num2), temp, 10 );
             break;
         case 'e':
             num1 = getNum ();
             num2 = getNum ();
-            num1 = num1 * 100;
-            ptr = itoa ( (num1 / num2), temp, 10 );
+            num1 = num1 * 1000;
+            ptr = ltoa ( (num1 / num2), temp, 10 );
                 
-                while ( 1 )
+                while ( i < 18 )
                 {
                     if ( *( ptr + i ) == '\0' )
                     {
-                        for ( int j = i; j > ( i - 2 ); j-- )
+                        for ( int j = i; j > ( i - 3 ); j-- )
                         {
                             *( ptr + j ) = *( ptr + (j - 1) );
                         }
-                        *( ptr + ( i - 2 ) ) = '.';
+                        *( ptr + ( i - 3 ) ) = '.';
                         *( ptr + ( i + 1 ) ) = '\0';
                         break;
                     }
