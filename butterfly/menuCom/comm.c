@@ -24,6 +24,8 @@ int main ( void )
         parseInput ( string );
 
         memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+
+        menu ();
     }
 
     free ( string );

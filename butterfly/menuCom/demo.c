@@ -27,7 +27,8 @@ void menu ( void )
     sendString ( "a. Add\r" );
     sendString ( "b. Sub\r" );
     sendString ( "c. Mult\r" );
-    sendString ( "d. Div\r" );
+    sendString ( "d. Integer division\r" );
+    sendString ( "e. Decimal division\r" );
     sendChar ( '\r' );
 }
 
@@ -36,11 +37,59 @@ void parseInput ( char *s )
     if ( *( s + 0 ) == '\0' )
         s = &*( s + 1 );
 
-    int num = 0, i = 0;
-    char *ptr, *temp = malloc ( sizeof(*temp) * 8 );
-    memset ( temp, 0, ( sizeof(*temp) * 8 ) );
+    int num1, num2;
+    unsigned char i = 0;
+    char *ptr, *temp = malloc ( sizeof(*temp) * 18 );
+    memset ( temp, 0, ( sizeof(*temp) * 18 ) );
 
-    DDRD = 0xFF;
+    switch ( *( s + 0 ) )
+    {
+        case 'a':
+            num1 = getNum ();
+            num2 = getNum ();
+            ptr = itoa ( (num1 + num2), temp, 10 );
+            break;
+        case 'b':
+            num1 = getNum ();
+            num2 = getNum ();
+            ptr = itoa ( (num1 - num2), temp, 10 );
+            break;
+        case 'c':
+            num1 = getNum ();
+            num2 = getNum ();
+            ptr = itoa ( (num1 * num2), temp, 10 );
+            break;
+        case 'd':
+            num1 = getNum ();
+            num2 = getNum ();
+            ptr = itoa ( (num1 / num2), temp, 10 );
+            break;
+        case 'e':
+            num1 = getNum ();
+            num2 = getNum ();
+            num1 = num1 * 100;
+            ptr = itoa ( (num1 / num2), temp, 10 );
+                
+                while ( 1 )
+                {
+                    if ( *( ptr + i ) == '\0' )
+                    {
+                        for ( int j = i; j > ( i - 2 ); j-- )
+                        {
+                            *( ptr + j ) = *( ptr + (j - 1) );
+                        }
+                        *( ptr + ( i - 2 ) ) = '.';
+                        *( ptr + ( i + 1 ) ) = '\0';
+                        break;
+                    }
+                    i++;
+                }
+
+            break;
+        default:
+            sendString ( "ERROR: YOU SO STUPID\r" );
+            break;
+    }
 
     switch ( *( s + 0 ) )
     {
@@ -48,54 +97,47 @@ void parseInput ( char *s )
         case 'b':
         case 'c':
         case 'd':
-            ptr = &*( s + 1 );
-            while ( 1 )
-            {
-                if ( *( s + i ) == '\n' )
-                {
-                    *( s + i ) = '\0';
-                    break;
-                }
-                else if ( *( s + i ) == '\r' )
-                {
-                    *( s + i ) = '\0';
-                    break;
-                }
-                i++;
-            }   
-
-            num = atoi ( ptr );
-            
-            switch ( *( s + 0 ) )
-            {
-                case 'a':
-                    num = num + 10;
-                    break;
-                case 'b':
-                    num = num - 20;
-                    break;
-                case 'c':
-                    num = num * 2;
-                    break;
-                case 'd':
-                    num = num / 2;
-                    break;
-            }
-            
-            ptr = itoa ( num, ptr, 10 );
-
-            for ( int j = 0; j <= 8; j++ )
-            {
-                if ( *( ptr + j ) == '\0' )
-                    *( ptr + j ) = '\r';
-            }
+        case 'e':
+            sendString ( "Result: " );
             sendString ( ptr );
-
-            break;
-        default:
-            sendString ( "ERROR: YOU SO STUPID\r" );
             break;
     }
     
+    sendChar ( '\r' );
+
     free ( temp );
+}
+
+int getNum ( void )
+{
+    int num;
+    unsigned char i = 0;
+    char *s = malloc ( sizeof(*s) * MAX_STR_LEN );
+    void *f;
+    memset ( s, 0, ( sizeof(*s) * MAX_STR_LEN ) );
+
+    sendString ( "Input a number:\r" );
+
+    getString ( s, f );
+
+    while ( 1 )
+    {
+        if ( *( s + i ) == '\n' )
+        {
+            *( s + i ) = '\0';
+            break;
+        }
+        else if ( *( s + i ) == '\r' )
+        {
+            *( s + i ) = '\0';
+            break;
+        }
+        i++;
+    }
+
+    num = atoi ( s );
+
+    free ( s );
+
+    return num;
 }

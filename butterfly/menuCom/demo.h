@@ -3,3 +3,4 @@
 void initializer ( void );
 void menu ( void );
 void parseInput ( char *s );
+int getNum ( void );
