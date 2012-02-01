@@ -87,7 +87,7 @@ void parseInput ( char *s )
 
             break;
         default:
-            sendString ( "ERROR: YOU SO STUPID\r" );
+            sendString ( "ERROR: YOU SO STUPID\7\r" );
             break;
     }
 
