@@ -22,7 +22,6 @@
 #include "joystick.h"
 #define F_CPU 1000000UL
 #include "util/delay.h"
-#include "compat/deprecated.h"
 
 
 //LCD Text + Nulls for scrolling + Null Termination 
@@ -261,26 +260,26 @@ void LCD_ShowColons(const uint8_t ColonsOn)
 
 void beep ( void )
 {
-    sbi ( DDRB, 5 );
+    DDRB |= 0x20;
 
-    for ( uint8_t i = 255; i > 0; i-- )
+    for ( uint8_t i = 110; i > 0; i-- )
     {
-        sbi ( PORTB, 5 );
-        
+        PORTB |= 0x20;
+
         _delay_ms ( 1 );
 
-        cbi ( PORTB, 5 );
+        PORTB &= 0xDF;
 
         _delay_ms ( 1 );
     }
 
-    cbi ( DDRB, 5 );
+    DDRB &= 0xDF;
 }
 
 int main(void) 
 { 
     uint8_t test;
-    DDRB |= 0x03;
+    DDRB |= 0x06;
     PORTB = 0x01;
 
     DIDR0 = 0;
@@ -302,17 +301,19 @@ int main(void)
             LCD_puts ( "Push" );
         else if ( (test & 8) == 8 )
         {
-            PORTB = 0x01;
+            PORTB = 0x02;
             LCD_puts ( "Right" );
         }
         else if ( (test & 4) == 4 )
         {
-            PORTB = 0x02;
+            PORTB = 0x04;
             LCD_puts ( "Left" );
-            //beep();
+            beep ();
+
+            PORTB = 0x04;
         }
     }
-   
+
     for(;;){}
     return 0; 
 } 
