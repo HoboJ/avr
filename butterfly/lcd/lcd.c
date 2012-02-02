@@ -280,6 +280,11 @@ void beep ( void )
     DDRB &= 0xDF;
 }
 
+/* Trevor Hennessy
+ *
+ * Description: Changes the message on the LCD when the bicolour led changes colour.
+ *
+ */
 int main(void) 
 { 
     uint8_t test;
@@ -292,6 +297,8 @@ int main(void)
     LCD_Init(); 
     sei();
     JoyInit();
+
+    LCD_puts ( "Left or Right" );
 
     for ( ;; )
     {
