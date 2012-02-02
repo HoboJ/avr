@@ -258,6 +258,9 @@ void LCD_ShowColons(const uint8_t ColonsOn)
     UpdateDisplay = true; 
 } 
 
+/* 110ms beep function
+ *
+ */
 void beep ( void )
 {
     DDRB |= 0x20;
@@ -273,6 +276,7 @@ void beep ( void )
         _delay_ms ( 1 );
     }
 
+    PORTB |= 0x20;
     DDRB &= 0xDF;
 }
 
@@ -291,25 +295,24 @@ int main(void)
 
     for ( ;; )
     {
-        test = JoyGet ();
+        test = JoyGet ();   //read the joystick
 
         if ( (test & 128) == 128 )
-            LCD_puts ( "Down" );
+            ; //Down
         else if ( (test & 64) == 64 )
-            LCD_puts ( "Up" );
+            ; //Up
         else if ( (test & 16) == 16 )
-            LCD_puts ( "Push" );
-        else if ( (test & 8) == 8 )
+            ; //Push
+        else if ( (test & 8) == 8 ) //change the led to green when you hit right on joystick
         {
             PORTB = 0x02;
-            LCD_puts ( "Right" );
+            LCD_puts ( "Green LED" );
         }
-        else if ( (test & 4) == 4 )
+        else if ( (test & 4) == 4 ) //change the led to red when you hit left on the joystick
         {
             PORTB = 0x04;
-            LCD_puts ( "Left" );
+            LCD_puts ( "Red LED" );
             beep ();
-
             PORTB = 0x04;
         }
     }
