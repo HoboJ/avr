@@ -24,11 +24,11 @@ void menu ( void )
 {
     sendChar ( '\r' );
     sendString ( "Menu\r" );
-    sendString ( "a. Add\r" );
-    sendString ( "b. Sub\r" );
-    sendString ( "c. Mult\r" );
-    sendString ( "d. Integer division\r" );
-    sendString ( "e. Decimal division\r" );
+    sendString ( "Add\r" );
+    sendString ( "Sub\r" );
+    sendString ( "Mult\r" );
+    sendString ( "Integer division (iDiv)\r" );
+    sendString ( "Decimal division (dDiv)\r" );
     sendChar ( '\r' );
 }
 
@@ -42,62 +42,62 @@ void parseInput ( char *s )
     char *ptr, *temp = malloc ( sizeof(*temp) * 18 );
     memset ( temp, 0, ( sizeof(*temp) * 18 ) );
 
-    switch ( *( s + 0 ) )
+    if ( ( strncmp ( "add", s, 3 ) ) == 0 )
     {
-        case 'a':
-            num1 = getNum ();
-            num2 = getNum ();
-            ptr = ltoa ( (num1 + num2), temp, 10 );
-            break;
-        case 'b':
-            num1 = getNum ();
-            num2 = getNum ();
-            ptr = ltoa ( (num1 - num2), temp, 10 );
-            break;
-        case 'c':
-            num1 = getNum ();
-            num2 = getNum ();
-            ptr = ltoa ( (num1 * num2), temp, 10 );
-            break;
-        case 'd':
-            num1 = getNum ();
-            num2 = getNum ();
-            ptr = ltoa ( (num1 / num2), temp, 10 );
-            break;
-        case 'e':
-            num1 = getNum ();
-            num2 = getNum ();
-            num1 = num1 * 1000;
-            ptr = ltoa ( (num1 / num2), temp, 10 );
-                
-                while ( i < 18 )
-                {
-                    if ( *( ptr + i ) == '\0' )
-                    {
-                        for ( int j = i; j > ( i - 3 ); j-- )
-                        {
-                            *( ptr + j ) = *( ptr + (j - 1) );
-                        }
-                        *( ptr + ( i - 3 ) ) = '.';
-                        *( ptr + ( i + 1 ) ) = '\0';
-                        break;
-                    }
-                    i++;
-                }
-
-            break;
-        default:
-            sendString ( "ERROR: YOU SO STUPID\7\r" );
-            break;
+        num1 = getNum ();
+        num2 = getNum ();
+        ptr = ltoa ( (num1 + num2), temp, 10 );
     }
+    else if ( ( strncmp ( "sub", s, 3 ) ) == 0 )
+    {
+        num1 = getNum ();
+        num2 = getNum ();
+        ptr = ltoa ( (num1 - num2), temp, 10 );
+    }
+    else if ( ( strncmp ( "mult", s, 4 ) ) == 0 )
+    {
+        num1 = getNum ();
+        num2 = getNum ();
+        ptr = ltoa ( (num1 * num2), temp, 10 );
+    }
+    else if ( ( strncmp ( "idiv", s, 4 ) ) == 0 )
+    {
+        num1 = getNum ();
+        num2 = getNum ();
+        ptr = ltoa ( (num1 / num2), temp, 10 );
+    }
+    else if ( ( strncmp ( "ddiv", s, 4 ) ) == 0 )
+    {
+        num1 = getNum ();
+        num2 = getNum ();
+        num1 = num1 * 1000;
+        ptr = ltoa ( (num1 / num2), temp, 10 );
+
+        while ( i < 18 )
+        {
+            if ( *( ptr + i ) == '\0' )
+            {
+                for ( int j = i; j > ( i - 3 ); j-- )
+                {
+                    *( ptr + j ) = *( ptr + (j - 1) );
+                }
+                *( ptr + ( i - 3 ) ) = '.';
+                *( ptr + ( i + 1 ) ) = '\0';
+                break;
+            }
+            i++;
+        }
+    }
+    else
+        sendString ( "ERROR: YOU SO STUPID\7\r" );
 
     switch ( *( s + 0 ) )
     {
         case 'a':
-        case 'b':
-        case 'c':
+        case 's':
+        case 'm':
+        case 'i':
         case 'd':
-        case 'e':
             sendString ( "Result: " );
             sendString ( ptr );
             break;
