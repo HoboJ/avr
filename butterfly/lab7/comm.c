@@ -1,17 +1,22 @@
 /* comm.c
  *
  * Trevor Hennessy
+ *
+ * Description: Performs calculations with smpte clock
  */
 
 #include "comm.h"
-#include "demo.h"
-
+#include "parse.h"
 
 int main ( void )
 {
+    DDRD = 0xFF;
+
 	char *string = malloc ( sizeof(*string) * MAX_STR_LEN );
     memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
-    unsigned char *flag = 0;
+
+    uint8_t i = 0;
+    long start = 0, end = 0;
 
 	// run the initialization routines
 	initializer();
@@ -19,11 +24,41 @@ int main ( void )
    	//Begin forever chatting with the PC
     while ( 1 )
     {
-        getString ( string, flag );
-
-        parseInput ( string );
-
+        sendString ( "S code\r" );
+        getString ( string );
+        start = parseInput ( string );
         memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+
+        sendString ( "E code\r" );
+        getString ( string );
+        end = parseInput ( string );
+        memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+
+        start = end - start;
+        revert ( start, string );
+        memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
+
+        if ( ( start / 30 ) > 4800 && ( start / 30 ) < 6267 )
+        {
+            for ( i = 0; i < 30; i++ )
+            {
+                PORTD = 128;
+                _delay_ms ( 500 );
+                PORTD = 0;
+                _delay_ms ( 500 );
+            }
+        }
+        else if ( ( start / 30 ) > 6267 )
+        {
+            sendString ( "Danger: too long\r" );
+            for ( i = 0; i < 30; i++ )
+            {
+                PORTD = 255;
+                _delay_ms ( 500 );
+                PORTD = 0;
+                _delay_ms ( 500 );
+            }
+        }
 
         menu ();
     }
@@ -32,10 +67,9 @@ int main ( void )
 	return 0;
 }
 
-
-void getString ( char *string, unsigned char *flag )
+void getString ( char *string )
 {
-    unsigned char count = 0;
+    uint8_t count = 0;
 
     while ( 1 )
     {
@@ -45,9 +79,9 @@ void getString ( char *string, unsigned char *flag )
 
             if ( *( string + count ) == '\r' || *( string + count ) == '\n' )
                 break;
-            else if ( count > 24 )
+            else if ( count > 14 )
             {
-                sendString ( "Error - received > 24 characters \r" );
+                sendString ( "Error 14\r" );
                 break;
             }
 
@@ -55,6 +89,7 @@ void getString ( char *string, unsigned char *flag )
         }
     }
 }
+
 /*
 void getString ( char *string, unsigned int *count )
 {
@@ -124,7 +159,7 @@ void sendString ( char *s )
     if ( *( s + i ) == '\0' )
         s = &*( s + 1 );
 
-	while ( i < 24 ) // don't get stuck if it is a bad string
+	while ( i < 64 ) // don't get stuck if it is a bad string
 	{
         sendChar ( *( s + i ) );
 
@@ -148,7 +183,7 @@ void sendFString ( const char *pFlashStr )
 	// '\0' is 'null' and terminates C strings
 	// The 60 prevents too much overrun if we get a bad pointer
 	// and it limits the string size
-	for ( i = 0; pgm_read_byte ( &pFlashStr[i] ) && i < 60; i++ )
+	for ( i = 0; ( pgm_read_byte ( &pFlashStr[i] ) ) != '\0' && i < 60; i++ )
     {
 		sendChar ( pgm_read_byte ( &pFlashStr[i] ) );
 	}

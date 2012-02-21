@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <avr/pgmspace.h>
 
-#include "demo.h"
+#include "parse.h"
 
-#define MAX_STR_LEN 24
+#define MAX_STR_LEN 14
 
 void OSCCAL_calibration ( void );
 
@@ -23,4 +23,4 @@ void sendString ( char *s );
 
 void sendFString ( const char *s );
 
-void getString ( char *string, unsigned char *flag );
+void getString ( char *string );
