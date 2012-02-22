@@ -24,20 +24,24 @@ int main ( void )
    	//Begin forever chatting with the PC
     while ( 1 )
     {
+        /* get smpte start time */
         sendString ( "S code\r" );
         getString ( string );
         start = parseInput ( string );
         memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
 
+        /* get smpte end time */
         sendString ( "E code\r" );
         getString ( string );
         end = parseInput ( string );
         memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
 
+        /* calculate the total length and revert back to smpte timecode format */
         start = end - start;
         revert ( start, string );
         memset ( string, 0, ( sizeof(*string) * MAX_STR_LEN ) );
 
+        /* if too large for CD blink */
         if ( ( start / 30 ) > 4800 && ( start / 30 ) < 6267 )
         {
             for ( i = 0; i < 30; i++ )
@@ -48,7 +52,7 @@ int main ( void )
                 _delay_ms ( 500 );
             }
         }
-        else if ( ( start / 30 ) > 6267 )
+        else if ( ( start / 30 ) > 6267 )   /* if too large for DVD blink */
         {
             sendString ( "Danger: too long\r" );
             for ( i = 0; i < 30; i++ )

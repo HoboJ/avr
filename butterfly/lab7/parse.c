@@ -26,6 +26,9 @@ void menu ( void )
     sendChar ( '\r' );
 }
 
+/* convert a smpte format string into the total frames 
+ * format being hours:minutes:seconds:frames
+ */
 long parseInput ( char *s )
 {
     if ( *( s + 0 ) == '\0' )
@@ -55,11 +58,15 @@ long parseInput ( char *s )
     return result;
 }
 
-/* Converts the number of frames back into smpte timecode format
+/* Converts frames back into smpte timecode format
+ * XX:XX:XX:XX being the correct format
  */
 void revert ( long res, char *buffer )
 {
     uint8_t i;
+    /* array to contain the complete smpte timecode
+     * string
+     */
     char *cstring = malloc ( sizeof(*cstring) * 14 );
     memset ( cstring, 0, ( sizeof(*cstring) * 14 ) );
 
