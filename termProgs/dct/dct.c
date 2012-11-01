@@ -8,11 +8,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
-#define MAX_STR_LEN 20
-#define ERR "h\n"
 #define PI 3.14159265
 
 float dctCalc ( int nums[8][8], int u, int v );
