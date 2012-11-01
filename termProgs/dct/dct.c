@@ -58,7 +58,7 @@ int main (int argc, char *argv[])
 
 float dctCalc ( int nums[8][8], int u, int v )
 {
-    float results[8][8], final, cu, cv;        
+    float results[8][8], final = 0, cu, cv;        
     int x, y;
 
     /* Calculate new array values based upon u and v coordinate 
