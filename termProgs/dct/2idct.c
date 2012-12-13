@@ -14,7 +14,7 @@
 
 static double coefficients [8 * 8];
 
-void ff_ref_idct ( short *block );
+void ff_ref_idct ( double *block );
 void ff_ref_dct_init ( void );
 
 int main (int argc, char *argv[])
@@ -22,45 +22,58 @@ int main (int argc, char *argv[])
     int i = 1, j = 0;
     double nums[8 * 8];
 
+    ff_ref_dct_init;
+
     if ( argc < 2 )
     {
         printf ( "%s: missing operand\n", argv[0] );
     }
     else
     {
-        while ( i != argc )
+        for ( i = 1; i < argc; i++ )
         {
-            nums[j] = atof ( ( * argv + i ) );
-            i++;
+            nums[j] = atof ( ( *( argv + i ) ) );
             j++;
         }
 
         printf ( "Input values:\n" );
 
-        j = 1;
+        j = 0;
         i = 0;
 
-        printf ( "%i\n", argc );
-        printf ( "%f\n", nums[1] );
-
-        /*
         while ( i < 64 )
         {
-            if ( j % 8 == 0 )
+            if ( j % 8 == 1 )
             {
                 printf ( "%f\n", nums[i] );
             }
             else
                 printf ( "%f ", nums[i] );
 
-            printf ( "%f\n", nums[i] );
             i++;
-            //j++;
+            j++;
         }
-        */
 
         printf ( "\n" );
         printf ( "Results:\n" );
+
+        ff_ref_idct ( nums );
+
+        j = 0;
+        i = 0;
+        printf ( "%f\n", nums[0] );
+        while ( i < 64 )
+        {
+            if ( j % 8 == 1 )
+            {
+                printf ( "%f\n", nums[i] );
+            }
+            else
+                printf ( "%f", nums[i] );
+
+            i++;
+            j++;
+        }
         
     }
 
@@ -81,7 +94,7 @@ void ff_ref_dct_init ( void )
     }
 }
 
-void ff_ref_idct ( short *block )
+void ff_ref_idct ( double *block )
 {
     unsigned int i, j, k;
     double out[8 * 8];

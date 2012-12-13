@@ -12,11 +12,11 @@
 
 #define PI 3.14159265f
 
-float idctCalc ( double nums[8][8], int u, int v );
+float idctCalc ( double nums[8][8], int x, int y );
 
 int main (int argc, char *argv[])
 {
-    int i, j = 0, k = 0, u = 0, v = 0;
+    int i, j = 0, k = 0, x = 0, y = 0;
     double nums[8][8];
     float final;
 
@@ -41,7 +41,7 @@ int main (int argc, char *argv[])
             }
         }
 
-        //final = idctCalc ( nums, u, v );
+        //final = idctCalc ( nums, x, y );
         //printf ( "%f\n", final );
 
         printf ( "Input values:\n" );
@@ -60,12 +60,13 @@ int main (int argc, char *argv[])
         printf ( "\n" );
         printf ( "Results:\n" );
         
-        for ( u = 0; u < 8; u++ )
+        for ( x = 0; x < 8; x++ )
         {
-            for ( v = 0; v < 8; v++ )
+            for ( y = 0; y < 8; y++ )
             {
-                final = idctCalc ( nums, u, v );
-                if ( v == 7 )
+                final = idctCalc ( nums, x, y );
+                
+                if ( y == 7 )
                     printf ( "%f\n", final );
                 else
                     printf ( "%f ", final );
@@ -77,51 +78,52 @@ int main (int argc, char *argv[])
 }
 
 
-float idctCalc ( double nums[8][8], int u, int v )
+float idctCalc ( double nums[8][8], int x, int y )
 {
     float results[8][8], final = 0, cu, cv;        
-    int x, y;
-
-    /* Decide if u or v are greater than 0 and perform proper calculation
-     * store value in cu and cv respectively
-     */
-    if ( u > 0 )
-    {
-        cu = .5;
-    }
-    else
-    {
-        cu = ( 1/sqrtf ( 2 ) ) / 2;
-    }
-
-    if ( v > 0 )
-    {
-        cv = .5;
-    }
-    else
-    {
-        cv = ( 1/sqrtf ( 2 ) ) / 2;
-    }
+    int u, v;
 
     /* Calculate new array values based upon u and v coordinate 
      */
-    for ( x = 0; x < 8; x++ )
+    for ( u = 0; u < 8; u++ )
     {
-        for ( y = 0; y < 8; y++ )
+        for ( v = 0; v < 8; v++ )
         {
-            results[x][y] = nums[x][y] * cu * cv * cosf ( ( ( 2 * x + 1 ) * u * PI ) /16 ) * cosf ( ( ( 2 * y + 1 ) * v * PI ) / 16 );
+            /* Decide if u or v are greater than 0 and perform proper
+             * calculation. Store the value in cu and cv respectively.
+             */
+            if ( u > 0 )
+            {
+                cu = .5;
+            }
+            else
+            {
+                cu = ( 1/sqrtf ( 2 ) ) / 2;
+            }
+
+            if ( v > 0 )
+            {
+                cv = .5;
+            }
+            else
+            {
+                cv = ( 1/sqrtf ( 2 ) ) / 2;
+            }
+
+            results[u][v] = nums[u][v] * cu * cv * cosf ( ( ( 2 * x + 1 ) * u * PI ) / 16 ) * cosf ( ( ( 2 * y + 1 ) * v * PI ) / 16 );
         }
     }
 
     /* Perform summation on array of calculated values
      */
-    for ( x = 0; x < 8; x++ )
+    for ( u = 0; u < 8; u++ )
     {
-        for ( y = 0; y < 8; y++ )
+        for ( v = 0; v < 8; v++ )
         {
-            final = final + results[x][y];
+            final = final + results[u][v];
         }
     }
+    //printf ( "%f\n", final );
     
     /* Calculate the final value at coordinate based upon u and v
      */
