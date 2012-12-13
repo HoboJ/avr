@@ -12,11 +12,12 @@
 
 #define PI 3.14159265f
 
-float idctCalc ( int nums[8][8], int u, int v );
+float idctCalc ( double nums[8][8], int u, int v );
 
 int main (int argc, char *argv[])
 {
-    int nums[8][8], i, j = 0, k = 0, u = 0, v = 0;
+    int i, j = 0, k = 0, u = 0, v = 0;
+    double nums[8][8];
     float final;
 
     if ( argc < 2 )
@@ -30,7 +31,7 @@ int main (int argc, char *argv[])
          */
         for ( i = 1; i != argc; i++ )
         {
-            nums[j][k] = atoi ( *( argv + i ) );
+            nums[j][k] = atof ( *( argv + i ) );
             k++;
 
             if ( k == 8 )
@@ -50,9 +51,9 @@ int main (int argc, char *argv[])
             for ( k = 0; k < 8; k++ )
             {
                 if ( k == 7 )
-                    printf ( "%i\n", nums[j][k] );
+                    printf ( "%f\n", nums[j][k] );
                 else
-                    printf ( "%i ", nums[j][k] );
+                    printf ( "%f ", nums[j][k] );
             }
         }
 
@@ -75,7 +76,8 @@ int main (int argc, char *argv[])
     return 0;
 }
 
-float idctCalc ( int nums[8][8], int u, int v )
+
+float idctCalc ( double nums[8][8], int u, int v )
 {
     float results[8][8], final = 0, cu, cv;        
     int x, y;
@@ -120,7 +122,7 @@ float idctCalc ( int nums[8][8], int u, int v )
             final = final + results[x][y];
         }
     }
-
+    
     /* Calculate the final value at coordinate based upon u and v
      */
     //final = cu * cv * final;
